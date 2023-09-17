@@ -1,26 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:votez/components/button.dart';
-import 'package:votez/components/text_field.dart';
 
-class LoginScreen extends StatefulWidget {
+import '../components/button.dart';
+import '../components/text_field.dart';
+
+class RegisterScreen extends StatefulWidget {
   final Function() onTap;
 
-  const LoginScreen({super.key, required this.onTap});
+  const RegisterScreen({super.key, required this.onTap});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final emailTextController = TextEditingController();
+class _RegisterScreenState extends State<RegisterScreen> {
+  final nameTextController = TextEditingController();
+  final nicTextController = TextEditingController();
   final passwordTextController = TextEditingController();
-
-  void logIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailTextController.text,
-        password: passwordTextController.text);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 18,
                 ),
                 const Text(
-                  "Welcome Back to Votez",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Text(
-                  "Vote Anytime, Anywhere Online",
+                  "Let's create an account for you ",
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -60,7 +48,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 MyTextField(
-                  textEditingController: emailTextController,
+                  textEditingController: nameTextController,
+                  hintText: "Name",
+                  obscureText: false,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                MyTextField(
+                  textEditingController: nicTextController,
                   hintText: "Email",
                   obscureText: false,
                 ),
@@ -76,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 MyButton(
-                  onTap: logIn,
-                  text: "Login",
+                  onTap: () {},
+                  text: "Register",
                 ),
                 const SizedBox(
                   height: 30,
@@ -85,14 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Not a member?"),
+                    const Text("Already have an account?"),
                     const SizedBox(
                       width: 5,
                     ),
                     GestureDetector(
                       onTap: widget.onTap,
                       child: const Text(
-                        "Register now",
+                        "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.blue,

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "128456182072",
+    "project_id": "votez-73e1e",
+    "storage_bucket": "votez-73e1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128456182072:android:c4c1e94e58d9bedb5319cd",
+        "android_client_info": {
+          "package_name": "com.imasha.votez.votez"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoUp8Q_i_jBX_bCdQTwVh6KBIz0Abg6DQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
