@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:votez/components/button.dart';
 import 'package:votez/components/text_field.dart';
 
+import '../components/dialog.dart';
+
 class LoginScreen extends StatefulWidget {
   final Function() onTap;
 
@@ -16,10 +18,21 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
-  void logIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailTextController.text,
-        password: passwordTextController.text);
+  void login() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailTextController.text,
+          password: passwordTextController.text);
+    }on FirebaseAuthException catch(e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return MyDialog(
+              title: 'Error',
+              description: e.code,
+            );
+          });
+    }
   }
 
   @override
@@ -76,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 MyButton(
-                  onTap: logIn,
+                  onTap: login,
                   text: "Login",
                 ),
                 const SizedBox(
