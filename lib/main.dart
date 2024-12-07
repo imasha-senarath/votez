@@ -2,13 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:votez/screens/splash_screen.dart';
+import 'package:votez/utils/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyBoUp8Q_i_jBX_bCdQTwVh6KBIz0Abg6DQ",
-      appId: "com.imasha.votez.votez",
+      appId: "com.imasha.votez",
       messagingSenderId: "",
       projectId: "votez-73e1e",
     ),
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(),
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       home: const SplashScreen(),
     );
   }

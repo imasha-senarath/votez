@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.imasha.votez.votez">
+    package="com.imasha.votez">
    <application
-        android:label="votez"
+        android:label="Votez"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

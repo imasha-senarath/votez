@@ -21,83 +21,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 25,
-            ),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                const Image(
-                  image: AssetImage('assets/images/logo.png'),
-                  width: 100,
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
-                const Text(
-                  "Let's create an account for you ",
-                  style: TextStyle(
-                    fontSize: 18,
+        child: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 25,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 50,
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                MyTextField(
-                  textEditingController: nameTextController,
-                  hintText: "Name",
-                  obscureText: false,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                MyTextField(
-                  textEditingController: nicTextController,
-                  hintText: "Email",
-                  obscureText: false,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                MyTextField(
-                  textEditingController: passwordTextController,
-                  hintText: "Password",
-                  obscureText: true,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                MyButton(
-                  onTap: () {},
-                  text: "Register",
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Already have an account?"),
-                    const SizedBox(
-                      width: 5,
+                  const Image(
+                    image: AssetImage('assets/images/logo.png'),
+                    width: 100,
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  const Text(
+                    "Let's create an account for you ",
+                    style: TextStyle(
+                      fontSize: 18,
                     ),
-                    GestureDetector(
-                      onTap: widget.onTap,
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  MyTextField(
+                    textEditingController: nameTextController,
+                    hintText: "Name",
+                    obscureText: false,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                    textEditingController: nicTextController,
+                    hintText: "Email",
+                    obscureText: false,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                    textEditingController: passwordTextController,
+                    hintText: "Password",
+                    obscureText: true,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  MyButton(
+                    onTap: () {},
+                    text: "Register",
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Already have an account?"),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      GestureDetector(
+                        onTap: widget.onTap,
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-              ],
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

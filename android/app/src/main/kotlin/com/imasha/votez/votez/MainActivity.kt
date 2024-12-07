@@ -1,4 +1,4 @@
-package com.imasha.votez.votez
+package com.imasha.votez
 
 import io.flutter.embedding.android.FlutterActivity
 
