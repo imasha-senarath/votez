@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../components/button.dart';
 import '../components/text_field.dart';
+import '../utils/constants/app_assets.dart';
+import '../utils/constants/sizes.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function() onTap;
@@ -22,84 +24,82 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 25,
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  const Image(
-                    image: AssetImage('assets/images/logo.png'),
-                    width: 100,
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  const Text(
-                    "Let's create an account for you ",
-                    style: TextStyle(
-                      fontSize: 18,
+          child: Padding(
+            padding: const EdgeInsets.all(AppSizes.defaultSpace),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                const Image(
+                  image: AssetImage(AppAssets.appLogo),
+                  width: 80,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Welcome to Votez",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                  "Let's create an account for you ",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                AppTextField(
+                  textEditingController: nameTextController,
+                  hintText: "Name",
+                  obscureText: false,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                AppTextField(
+                  textEditingController: nicTextController,
+                  hintText: "Email",
+                  obscureText: false,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                AppTextField(
+                  textEditingController: passwordTextController,
+                  hintText: "Password",
+                  obscureText: true,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                AppButton(
+                  onTap: () {},
+                  text: "Register",
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Already have an account?"),
+                    const SizedBox(
+                      width: 5,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  MyTextField(
-                    textEditingController: nameTextController,
-                    hintText: "Name",
-                    obscureText: false,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  MyTextField(
-                    textEditingController: nicTextController,
-                    hintText: "Email",
-                    obscureText: false,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  MyTextField(
-                    textEditingController: passwordTextController,
-                    hintText: "Password",
-                    obscureText: true,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  MyButton(
-                    onTap: () {},
-                    text: "Register",
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Already have an account?"),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: widget.onTap,
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
-                          ),
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
                         ),
                       ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),
