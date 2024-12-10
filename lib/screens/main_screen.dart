@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:votez/screens/analytics_screen.dart';
 import 'package:votez/screens/home_screen.dart';
 import 'package:votez/screens/profile_screen.dart';
 
@@ -14,6 +15,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
+    const AnalyticsPage(),
     const ProfilePage(),
   ];
 
@@ -31,6 +33,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.analytics),
+            label: "Analytics",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
