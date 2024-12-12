@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:votez/screens/analytics_screen.dart';
 import 'package:votez/screens/home_screen.dart';
-import 'package:votez/screens/profile_screen.dart';
+import 'package:votez/screens/setting_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    const ProfilePage(),
+    const AnalyticsPage(),
+    const SettingPage(),
   ];
 
   @override
@@ -33,8 +35,12 @@ class _MainScreenState extends State<MainScreen> {
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: "Profile",
+            icon: Icon(Icons.analytics),
+            label: "Analytics",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Setting",
           ),
         ],
       ),

@@ -66,4 +66,6 @@ class AppSizes {
 
   // Grid view spacing
   static const double gridViewSpacing = 16.0;
+
+  static const double borderRadius = 10.0;
 }

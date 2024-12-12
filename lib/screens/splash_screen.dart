@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:votez/screens/home_screen.dart';
 
 import '../auth/auth.dart';
+import '../utils/constants/colors.dart';
 import 'main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,7 +16,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   String appVersion = "";
 
   @override
@@ -45,7 +45,6 @@ class _SplashScreenState extends State<SplashScreen> {
         appVersion = packageInfo.version;
       });
     });
-
   }
 
   @override
@@ -66,7 +65,18 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 30),
-              child: Text(appVersion),
+              child: Column(
+                children: [
+                  Text(appVersion),
+                  const SizedBox(height: 16),
+                  const Text(
+                    "From Imasha Senarath",
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
             )
           ],
         ),
