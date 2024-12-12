@@ -10,16 +10,16 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primaryBackground,
       appBar: const CustomAppBar(
         title: 'Setting',
         enableBackButton: false,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(28),
+        padding: const EdgeInsets.all(36),
         child: Column(
           children: [
             Row(
-
               children: [
                 const Image(
                   image: AssetImage(AppAssets.user),
@@ -50,15 +50,26 @@ class SettingPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
             const SettingCard(
               title: 'Notifications',
               icon: Icons.notifications,
             ),
+            const SizedBox(height: 30),
             const SettingCard(
               title: 'Theme',
               icon: Icons.color_lens,
             ),
+            Spacer(),
+            const Text(
+              "Log Out",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: AppColors.error,
+                fontSize: 18,
+                fontWeight: FontWeight.bold
+              ),
+            )
           ],
         ),
       ),
@@ -78,27 +89,21 @@ class SettingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(18),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 30,
-            color: Colors.grey.shade400,
-          ),
-          const SizedBox(width: 10),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-          const Spacer(),
-          const Icon(Icons.navigate_next),
-        ],
-      ),
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 30,
+          color: Colors.grey.shade400,
+        ),
+        const SizedBox(width: 10),
+        Text(
+          title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const Spacer(),
+        const Icon(Icons.navigate_next),
+      ],
     );
   }
 }

@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.primaryBackground,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   decoration: const BoxDecoration(
-                    color: AppColors.black, // Background color
+                    color: AppColors.white, // Background color
                     borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                   ),
                   child: Padding(
@@ -91,7 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               "Active Election",
                               style: TextStyle(
-                                color: AppColors.textWhite,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             Spacer(),
@@ -106,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const Text(
                           'Presidential Election',
                           style: TextStyle(
-                            color: AppColors.textWhite,
+                            color: AppColors.textPrimary,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -119,25 +120,25 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icon(
                               Icons.access_alarm,
                               size: 20,
-                              color: AppColors.textWhite,
+                              color: AppColors.textPrimary,
                             ),
                             SizedBox(width: 5),
                             Text(
                               "Ends In: 1h 30min",
                               style: TextStyle(
-                                color: AppColors.textWhite,
+                                color: AppColors.textPrimary,
                               ),
                             ),
-                            SizedBox(width: 20),
+                            Spacer(),
                             Icon(
                               Icons.verified,
                               size: 20,
-                              color: AppColors.textWhite,
+                              color: AppColors.textPrimary,
                             ),
                             SizedBox(width: 5),
                             Text("5 Candidates",
                                 style: TextStyle(
-                                  color: AppColors.textWhite,
+                                  color: AppColors.textPrimary,
                                 )),
                           ],
                         )
@@ -149,8 +150,56 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 20,
                 ),
                 const Text(
+                  "Announcements",
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                ListView.builder(
+                  itemCount: elections.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: index == elections.length - 1 ? 0 : 5.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(18),
+                          child: Row(
+                            children: const [
+                              Expanded(
+                                child: Text(
+                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat urna sed erat rhoncus volutpat. Aenean nulla dolor, commodo quis imperdiet non, scelerisque ut justo. Duis iaculis augue dapibus, mollis ipsum at, vulputate eros.',
+                                ),
+                              ),
+                              Image(
+                                image: AssetImage(AppAssets.appLogo),
+                                width: 45,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
                   "Upcoming Elections",
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 ListView.builder(
@@ -162,13 +211,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.only(bottom: index == elections.length - 1 ? 0 : 5.0),
                         child: ElectionCard(elections: elections, index: index));
                   },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  "Announcements",
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -193,7 +235,7 @@ class ElectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(AppSizes.borderRadius),
       ),
       child: Padding(
