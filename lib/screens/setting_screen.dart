@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:votez/components/AppBar.dart';
+import 'package:votez/components/appbar.dart';
 
 import '../utils/constants/app_assets.dart';
 import '../utils/constants/colors.dart';
@@ -16,7 +16,7 @@ class SettingPage extends StatelessWidget {
         enableBackButton: false,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(36),
+        padding: const EdgeInsets.all(24),
         child: Column(
           children: [
             Row(
