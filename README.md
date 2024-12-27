@@ -1,16 +1,18 @@
-# votez
+<h1> Votez </h1>
 
-A voting application.
+<h3 align="center">🚧 This project is currently under development. 🚧 </h3> <br>
 
-## Getting Started
+<p>A Flutter app for online voting in eligible elections, no need to visit polling stations. Built with Clean Architecture and BLoC with Firebases.</p>
 
-This project is a starting point for a Flutter application.
+<h2> ⚙️ Technologies </h2>
+<ul>
+  <li>Flutter Clean Architecture and BLoC Pattern.</li>
+  <li>Firebase with Firestore and Authentication.</li>
+</ul>
 
-A few resources to get you started if this is your first Flutter project:
+<h2> 🔥 Features </h2>
+  
+<h2> 📸 Screenshots </h2>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<h2> 👽 Author </h2>
+<a href="https://www.imashasenarath.com/" target="_blank"><strong>Imasha Senarath</strong></a>
