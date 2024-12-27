@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:votez/screens/candidates_screen.dart';
 import 'package:votez/utils/constants/colors.dart';
 
 import '../utils/constants/app_assets.dart';
@@ -14,7 +14,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List elections = ['Presidential Elections', 'Parliamentary Elections'];
+  List elections = ['Presidential Elections', 'Parliamentary Elections', 'General Elections'];
+  List announcements = ['1', '2'];
 
   void signOut() {
     FirebaseAuth.instance.signOut();
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.primaryBackground,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,75 +75,87 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: AppColors.white, // Background color
-                    borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(18),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              "Active Election",
-                              style: TextStyle(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.bold,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CandidatesPage(election: 'Presidential Election'),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: AppColors.white, // Background color
+                      borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: const [
+                              Text(
+                                "Active Election",
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.circle,
-                              size: 15,
-                              color: Colors.green,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        const Text(
-                          'Presidential Election',
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                              Spacer(),
+                              Icon(
+                                Icons.circle,
+                                size: 15,
+                                color: Colors.green,
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.access_alarm,
-                              size: 20,
+                          const SizedBox(height: 15),
+                          const Text(
+                            'Presidential Election',
+                            style: TextStyle(
                               color: AppColors.textPrimary,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                            SizedBox(width: 5),
-                            Text(
-                              "Ends In: 1h 30min",
-                              style: TextStyle(
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            children: const [
+                              Icon(
+                                Icons.access_alarm,
+                                size: 20,
                                 color: AppColors.textPrimary,
                               ),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.verified,
-                              size: 20,
-                              color: AppColors.textPrimary,
-                            ),
-                            SizedBox(width: 5),
-                            Text("5 Candidates",
+                              SizedBox(width: 5),
+                              Text(
+                                "Ends In: 1h 30min",
                                 style: TextStyle(
                                   color: AppColors.textPrimary,
-                                )),
-                          ],
-                        )
-                      ],
+                                ),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.verified,
+                                size: 20,
+                                color: AppColors.textPrimary,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "5 Candidates",
+                                style: TextStyle(
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -159,12 +172,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 15),
                 ListView.builder(
-                  itemCount: elections.length,
+                  itemCount: announcements.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.only(bottom: index == elections.length - 1 ? 0 : 5.0),
+                      padding: EdgeInsets.only(bottom: index == announcements.length - 1 ? 0 : 5.0),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -176,12 +189,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: const [
                               Expanded(
                                 child: Text(
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat urna sed erat rhoncus volutpat. Aenean nulla dolor, commodo quis imperdiet non, scelerisque ut justo. Duis iaculis augue dapibus, mollis ipsum at, vulputate eros.',
+                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat urna sed erat rhoncus volutpat. Aenean nulla dolor, commodo quis imperdiet non, scelerisque ut justo.',
                                 ),
+                              ),
+                              SizedBox(
+                                width: 10,
                               ),
                               Image(
                                 image: AssetImage(AppAssets.appLogo),
-                                width: 45,
+                                width: 60,
                               ),
                             ],
                           ),

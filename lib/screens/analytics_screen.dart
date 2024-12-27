@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:votez/components/AppBar.dart';
+import 'package:votez/components/appbar.dart';
 
 import '../utils/constants/colors.dart';
 
