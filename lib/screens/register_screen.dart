@@ -39,11 +39,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 10,
                 ),
                 Text(
-                  "Welcome to Votez",
+                  "Let's get started",
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 Text(
-                  "Let's create an account for you ",
+                  "Let's create an account for you",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(

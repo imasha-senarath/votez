@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:votez/components/appbar.dart';
 
 import '../utils/constants/app_assets.dart';
 import '../utils/constants/colors.dart';
+import '../utils/constants/sizes.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -16,50 +18,77 @@ class SettingPage extends StatelessWidget {
         enableBackButton: false,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24),
         child: Column(
           children: [
-            Row(
-              children: [
-                const Image(
-                  image: AssetImage(AppAssets.user),
-                  width: 60,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "Imasha Senarath",
-                      style: TextStyle(
-                        color: AppColors.textPrimary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
+            Container(
+              decoration: const BoxDecoration(
+                color: AppColors.white, // Background color
+                borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(18),
+                child: Row(
+                  children: [
+                    Image(
+                      image: AssetImage(AppAssets.user),
+                      width: 60,
                     ),
-                    Text(
-                      "970654765V",
-                      style: TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 16,
-                      ),
-                    )
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Imasha Senarath",
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                        Text(
+                          "970654765V",
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 16,
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
-              ],
+              ),
             ),
-            const SizedBox(height: 50),
-            const SettingCard(
-              title: 'Notifications',
-              icon: Icons.notifications,
+
+            Container(
+              decoration: const BoxDecoration(
+                color: AppColors.white, // Background color
+                borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(18),
+                child: Column(
+                  children: [
+                    SettingCard(
+                      title: 'Notifications',
+                      icon: Icons.notifications,
+                    ),
+                    SizedBox(height: 30),
+                    SettingCard(
+                      title: 'Theme',
+                      icon: Icons.color_lens,
+                    ),
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(height: 30),
-            const SettingCard(
-              title: 'Theme',
-              icon: Icons.color_lens,
-            ),
+
+
+
+            SizedBox(height: 50),
+
             Spacer(),
             const Text(
               "Log Out",

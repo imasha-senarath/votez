@@ -26,19 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const MainScreen(),
+            builder: (context) => const AuthPage(),
           ));
     });
-
-/*    Fluttertoast.showToast(
-        msg: "This is Center Short Toast",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );*/
 
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       setState(() {
@@ -67,8 +57,8 @@ class _SplashScreenState extends State<SplashScreen> {
               padding: const EdgeInsets.only(bottom: 30),
               child: Column(
                 children: [
-                  Text(appVersion),
-                  const SizedBox(height: 16),
+                  Text("V$appVersion"),
+                  const SizedBox(height: 14),
                   const Text(
                     "From Imasha Senarath",
                     style: TextStyle(

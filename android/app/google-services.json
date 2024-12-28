@@ -2,12 +2,12 @@
   "project_info": {
     "project_number": "128456182072",
     "project_id": "votez-73e1e",
-    "storage_bucket": "votez-73e1e.appspot.com"
+    "storage_bucket": "votez-73e1e.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:128456182072:android:c4c1e94e58d9bedb5319cd",
+        "mobilesdk_app_id": "1:128456182072:android:ac2dff4b9bdd8fec5319cd",
         "android_client_info": {
           "package_name": "com.imasha.votez"
         }
