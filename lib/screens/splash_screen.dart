@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:votez/screens/home_screen.dart';
 
-import '../auth/auth.dart';
+import '../services/auth.dart';
 import '../utils/constants/colors.dart';
 import 'main_screen.dart';
 
