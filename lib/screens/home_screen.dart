@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:votez/screens/candidates_screen.dart';
 import 'package:votez/utils/constants/colors.dart';
 
+import '../components/app_dialog.dart';
 import '../utils/constants/app_assets.dart';
 import '../utils/constants/sizes.dart';
 
@@ -16,6 +18,28 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List elections = ['Presidential Elections', 'Parliamentary Elections', 'General Elections'];
   List announcements = ['1', '2'];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAnnouncements();
+  }
+
+  Future<void> _fetchAnnouncements() async {
+    /*try {
+      List<Map<String, dynamic>> fetchedData = await _firestoreService.fetchCollection('your_collection_name');
+      setState(() {
+        _items = fetchedData;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }*/
+  }
+
 
   void signOut() {
     FirebaseAuth.instance.signOut();
@@ -41,13 +65,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: AppColors.primary, // Background color
                           borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                         ),
-                        child: const Padding(
+                        child: Padding(
                           padding: EdgeInsets.all(18),
                           child: Row(
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text(
                                     "Hey Imasha,",
                                     style: TextStyle(
@@ -66,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                               Spacer(),
-                              Image(
+                              const Image(
                                 image: AssetImage(AppAssets.user),
                                 width: 45,
                               ),
@@ -81,25 +105,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      addData(
+                        'Announcements',
+                        {
+                          'content':
+                              'Scelerisque ut justo commodo quis imperdiet non, lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat urna sed erat rhoncus volutpat. Aenean nulla dolor.',
+                          'status': 'inactive'
+                        },
+                      );
+
+                      /*Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const CandidatesPage(election: 'Presidential Election'),
                         ),
-                      );
+                      );*/
                     },
                     child: Container(
                       decoration: const BoxDecoration(
                         color: AppColors.white, // Background color
                         borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                       ),
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(18),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              children: [
+                              children: const [
                                 Text(
                                   "Active Election",
                                   style: TextStyle(
@@ -116,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             SizedBox(height: 15),
-                            Text(
+                            const Text(
                               'Presidential Election',
                               style: TextStyle(
                                 color: AppColors.textPrimary,
@@ -124,11 +157,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
-                              children: [
+                              children: const [
                                 Icon(
                                   Icons.access_alarm,
                                   size: 20,
@@ -185,10 +218,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(AppSizes.borderRadius),
                           ),
-                          child: const Padding(
+                          child: Padding(
                             padding: EdgeInsets.all(18),
                             child: Row(
-                              children: [
+                              children: const [
                                 Expanded(
                                   child: Text(
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat urna sed erat rhoncus volutpat. Aenean nulla dolor, commodo quis imperdiet non, scelerisque ut justo.',
@@ -238,6 +271,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Future<void> addData(String collection, Map<String, dynamic> data) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    try {
+      await firestore.collection(collection).add(data);
+      AppDialog.showToast(context: context, message: "success");
+    } catch (e) {
+      AppDialog.showErrorDialog(context: context, message: e.toString());
+      print("Error adding document: $e");
+      rethrow;
+    }
+  }
 }
 
 class ElectionCard extends StatelessWidget {
@@ -272,8 +317,8 @@ class ElectionCard extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const Row(
-              children: [
+            Row(
+              children: const [
                 Icon(
                   Icons.date_range,
                   size: 20,

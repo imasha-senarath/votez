@@ -13,93 +13,98 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBackground,
-      appBar: const CustomAppBar(
+      /*appBar: const CustomAppBar(
         title: 'Setting',
         enableBackButton: false,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: AppColors.white, // Background color
-                borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(18),
-                child: Row(
-                  children: [
-                    Image(
-                      image: AssetImage(AppAssets.user),
-                      width: 60,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Imasha Senarath",
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
+      ),*/
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.white, // Background color
+                  borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Row(
+                    children: [
+                      const Image(
+                        image: AssetImage(AppAssets.user),
+                        width: 60,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "Imasha Senarath",
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "970654765V",
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 16,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
+                          Text(
+                            "970654765V",
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 16,
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-
-            Container(
-              decoration: const BoxDecoration(
-                color: AppColors.white, // Background color
-                borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(18),
-                child: Column(
-                  children: [
-                    SettingCard(
-                      title: 'Notifications',
-                      icon: Icons.notifications,
-                    ),
-                    SizedBox(height: 30),
-                    SettingCard(
-                      title: 'Theme',
-                      icon: Icons.color_lens,
-                    ),
-                  ],
+              const SizedBox(height: 15),
+              Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.white, // Background color
+                  borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(18),
+                  child: Column(
+                    children: const [
+                      SettingCard(
+                        title: 'Notifications',
+                        icon: Icons.notifications,
+                      ),
+                      SizedBox(height: 30),
+                      SettingCard(
+                        title: 'Theme',
+                        icon: Icons.color_lens,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-
-
-
-            SizedBox(height: 50),
-
-            Spacer(),
-            const Text(
-              "Log Out",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: AppColors.error,
-                fontSize: 18,
-                fontWeight: FontWeight.bold
+              const SizedBox(height: 15),
+              Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.white, // Background color
+                  borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(18),
+                  child: Column(
+                    children: const [
+                      SettingCard(
+                        title: 'Logout',
+                        icon: Icons.notifications,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -122,13 +127,13 @@ class SettingCard extends StatelessWidget {
       children: [
         Icon(
           icon,
-          size: 30,
+          size: 26,
           color: Colors.grey.shade400,
         ),
         const SizedBox(width: 10),
         Text(
           title,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const Spacer(),
         const Icon(Icons.navigate_next),
