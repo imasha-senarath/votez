@@ -5,6 +5,7 @@ import 'package:votez/screens/candidates_screen.dart';
 import 'package:votez/utils/constants/colors.dart';
 
 import '../components/app_dialog.dart';
+import '../services/firebase_service.dart';
 import '../utils/constants/app_assets.dart';
 import '../utils/constants/sizes.dart';
 
@@ -16,8 +17,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late String currentUserId;
+
+  final FirebaseService _firestoreService = FirebaseService();
+
   List elections = ['Presidential Elections', 'Parliamentary Elections', 'General Elections'];
-  List announcements = ['1', '2'];
+
+  List<Map<String, dynamic>> _announcements = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -26,10 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _fetchAnnouncements() async {
-    /*try {
-      List<Map<String, dynamic>> fetchedData = await _firestoreService.fetchCollection('your_collection_name');
+    try {
+      List<Map<String, dynamic>> fetchedData = await _firestoreService.getData('Announcements');
       setState(() {
-        _items = fetchedData;
+        _announcements = fetchedData;
         _isLoading = false;
       });
     } catch (e) {
@@ -37,9 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isLoading = false;
       });
-    }*/
+    }
   }
-
 
   void signOut() {
     FirebaseAuth.instance.signOut();
@@ -101,16 +107,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 20,
                   ),
                   GestureDetector(
                     onTap: () {
                       addData(
-                        'Announcements',
+                        'Elections',
                         {
-                          'content':
-                              'Scelerisque ut justo commodo quis imperdiet non, lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat urna sed erat rhoncus volutpat. Aenean nulla dolor.',
-                          'status': 'inactive'
+                          'title':
+                              'Parliamentary Elections',
+                          'date': '10 Dec 2025',
+                          'startTime': '08:00 AM',
+                        'endTime': '04:00 PM'
                         },
                       );
 
@@ -206,41 +214,44 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  ListView.builder(
-                    itemCount: announcements.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: index == announcements.length - 1 ? 0 : 5.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(18),
-                            child: Row(
-                              children: const [
-                                Expanded(
-                                  child: Text(
-                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat urna sed erat rhoncus volutpat. Aenean nulla dolor, commodo quis imperdiet non, scelerisque ut justo.',
+                  _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                          itemCount: _announcements.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final announcements = _announcements[index];
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: index == _announcements.length - 1 ? 0 : 5.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(18),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          announcements['content'],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Image(
+                                        image: AssetImage(AppAssets.appLogo),
+                                        width: 60,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Image(
-                                  image: AssetImage(AppAssets.appLogo),
-                                  width: 60,
-                                ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
                   const SizedBox(
                     height: 20,
                   ),

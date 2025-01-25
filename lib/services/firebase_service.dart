@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  static String? getUserId() {
+    return FirebaseAuth.instance.currentUser?.uid;
+  }
 
   /// Add Data with Custom Document ID
   Future<void> addData(
@@ -61,11 +66,10 @@ class FirebaseService {
       if (documentSnapshot.exists) {
         return documentSnapshot.data();
       } else {
-        print("No such document!");
         return null;
       }
+
     } catch (e) {
-      print("Error fetching document: $e");
       rethrow;
     }
   }
