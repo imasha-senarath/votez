@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:votez/components/appbar.dart';
+import 'package:votez/screens/login_screen.dart';
 
 import '../components/app_dialog.dart';
+import '../services/auth.dart';
 import '../services/firebase_service.dart';
 import '../utils/constants/app_assets.dart';
 import '../utils/constants/colors.dart';
@@ -43,6 +45,18 @@ class _SettingPageState extends State<SettingPage> {
         isLoading = false;
         print('Error: $e');
       });
+    }
+  }
+
+  Future<void> logout(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen(onTap: () {})), // Replace with your LoginPage widget
+      );
+    } catch (e) {
+      print('Error logging out: $e');
     }
   }
 
@@ -129,10 +143,19 @@ class _SettingPageState extends State<SettingPage> {
                       child: Padding(
                         padding: EdgeInsets.all(18),
                         child: Column(
-                          children: const [
+                          children:  [
                             SettingCard(
                               title: 'Logout',
                               icon: Icons.notifications,
+                              onTap: () {
+                                AppDialog.showConfirmDialog(context: context, title: "Logout", message: "Are you sure you want to log out?", onConfirm: () {
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const AuthPage()),
+                                  );
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -149,30 +172,34 @@ class _SettingPageState extends State<SettingPage> {
 class SettingCard extends StatelessWidget {
   final String title;
   final IconData icon;
+  final Function()? onTap;
 
   const SettingCard({
     super.key,
     required this.title,
-    required this.icon,
+    required this.icon, this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 26,
-          color: Colors.grey.shade400,
-        ),
-        const SizedBox(width: 10),
-        Text(
-          title,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const Spacer(),
-        const Icon(Icons.navigate_next),
-      ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 26,
+            color: Colors.grey.shade400,
+          ),
+          const SizedBox(width: 10),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const Spacer(),
+          const Icon(Icons.navigate_next),
+        ],
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:votez/screens/candidates_screen.dart';
+import 'package:votez/screens/craete_poll_screen.dart';
 import 'package:votez/utils/constants/colors.dart';
 
 import '../components/app_dialog.dart';
@@ -55,6 +56,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBackground,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreatePollScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add), // Icon for the FAB
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 24, left: 24, right: 24),

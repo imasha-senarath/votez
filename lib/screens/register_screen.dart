@@ -51,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 AppTextField(
                   textEditingController: nameTextController,
-                  hintText: "Name",
+                  labelText: "Name",
                   obscureText: false,
                 ),
                 const SizedBox(
@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 AppTextField(
                   textEditingController: nicTextController,
-                  hintText: "Email",
+                  labelText: "Email",
                   obscureText: false,
                 ),
                 const SizedBox(
@@ -67,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 AppTextField(
                   textEditingController: passwordTextController,
-                  hintText: "Password",
+                  labelText: "Password",
                   obscureText: true,
                 ),
                 const SizedBox(

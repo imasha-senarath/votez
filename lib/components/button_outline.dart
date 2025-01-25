@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class AppButton extends StatelessWidget {
+class AppButtonOutline extends StatelessWidget {
   final Function() onTap;
   final String text;
 
-  const AppButton({super.key, required this.onTap, required this.text});
+  const AppButtonOutline({super.key, required this.onTap, required this.text});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
+      child: OutlinedButton(
         onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black,
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: Colors.grey, width: 1),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -21,7 +21,10 @@ class AppButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.blue,
+          ),
         ),
       ),
     );

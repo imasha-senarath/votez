@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 AppTextField(
                   textEditingController: emailTextController,
-                  hintText: "Email",
+                  labelText: "Email",
                   obscureText: false,
                 ),
                 const SizedBox(
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 AppTextField(
                   textEditingController: passwordTextController,
-                  hintText: "Password",
+                  labelText: "Password",
                   obscureText: true,
                 ),
                 const SizedBox(
