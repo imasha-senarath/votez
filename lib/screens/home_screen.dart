@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:votez/screens/candidates_screen.dart';
-import 'package:votez/screens/craete_poll_screen.dart';
+import 'package:votez/screens/create_poll_screen.dart';
 import 'package:votez/utils/constants/colors.dart';
 
 import '../components/app_dialog.dart';
@@ -20,22 +20,39 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late String currentUserId;
 
-  final FirebaseService _firestoreService = FirebaseService();
-
-  List elections = ['Presidential Elections', 'Parliamentary Elections', 'General Elections'];
+  final FirebaseService _firebase = FirebaseService();
 
   List<Map<String, dynamic>> _announcements = [];
   bool _isLoading = true;
+
+  List<Map<String, dynamic>> _polls = [];
+  bool _isPollsLoading = true;
 
   @override
   void initState() {
     super.initState();
     _fetchAnnouncements();
+    _fetchPolls();
+  }
+
+  Future<void> _fetchPolls() async {
+    try {
+      List<Map<String, dynamic>> fetchedData = await _firebase.getData('Polls');
+      setState(() {
+        _polls = fetchedData;
+        _isPollsLoading = false;
+      });
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        _isPollsLoading = false;
+      });
+    }
   }
 
   Future<void> _fetchAnnouncements() async {
     try {
-      List<Map<String, dynamic>> fetchedData = await _firestoreService.getData('Announcements');
+      List<Map<String, dynamic>> fetchedData = await _firebase.getData('Announcements');
       setState(() {
         _announcements = fetchedData;
         _isLoading = false;
@@ -99,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "Good Morning",
+                                    "Good Evening",
                                     style: TextStyle(
                                       color: AppColors.textWhite,
                                       fontSize: 16,
@@ -126,11 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       addData(
                         'Elections',
                         {
-                          'title':
-                              'Parliamentary Elections',
+                          'title': 'Parliamentary Elections',
                           'date': '10 Dec 2025',
                           'startTime': '08:00 AM',
-                        'endTime': '04:00 PM'
+                          'endTime': '04:00 PM'
                         },
                       );
 
@@ -276,16 +292,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  ListView.builder(
-                    itemCount: elections.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: EdgeInsets.only(bottom: index == elections.length - 1 ? 0 : 5.0),
-                          child: ElectionCard(elections: elections, index: index));
-                    },
-                  ),
+                  _isPollsLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                          itemCount: _polls.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final polls = _polls[index];
+                            return Padding(
+                                padding: EdgeInsets.only(bottom: index == _polls.length - 1 ? 0 : 5.0),
+                                child: ElectionCard(polls: _polls, index: index));
+                          },
+                        ),
                 ],
               ),
             ),
@@ -311,15 +330,16 @@ class _HomeScreenState extends State<HomeScreen> {
 class ElectionCard extends StatelessWidget {
   const ElectionCard({
     super.key,
-    required this.elections,
+    required this.polls,
     required this.index,
   });
 
-  final List elections;
+  final List<Map<String, dynamic>> polls;
   final int index;
 
   @override
   Widget build(BuildContext context) {
+    final poll = polls[index];
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -331,7 +351,7 @@ class ElectionCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              elections[index],
+              poll['question'],
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

@@ -11,11 +11,11 @@ class FirebaseService {
   /// Add Data with Custom Document ID
   Future<void> addData(
     String collection,
-    Map<String, dynamic> data, {
+    Map<String, dynamic> data,
     String? documentId,
-  }) async {
+  ) async {
     try {
-      if (documentId != null) {
+      if (documentId != "") {
         await _firestore.collection(collection).doc(documentId).set(data);
       } else {
         await _firestore.collection(collection).add(data);
