@@ -21,8 +21,10 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+
   final FirebaseService firebase = FirebaseService();
   late String userId;
+
   bool isLoading = true;
   late Map<String, dynamic>? profileData;
 

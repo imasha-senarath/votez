@@ -2,7 +2,7 @@
 
 <h3 align="center">🚧 This project is currently under development. 🚧 </h3> <br>
 
-<p>A Flutter app for online voting in eligible elections, no need to visit polling stations. Built with Clean Architecture and BLoC with Firebases.</p>
+<p>A Flutter social media app for creating and participating in polls. Users can engage in discussions, vote on trending topics, and explore polls across various categories. Built with Clean Architecture, BLoC, and Firebase.</p>
 
 <h2> ⚙️ Technologies </h2>
 <ul>
