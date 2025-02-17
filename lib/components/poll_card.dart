@@ -72,8 +72,8 @@ class PollCard extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Text("9:22 PM • 10 Dec 2025"),
+              children: [
+                Text("${poll['time']} • ${poll['date']}")
               ],
             )
           ],

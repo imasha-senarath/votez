@@ -162,7 +162,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (context, index) {
                             return Padding(
                                 padding: EdgeInsets.only(bottom: index == _polls.length - 1 ? 0 : 5.0),
-                                child: PollCard(polls: _polls, index: index));
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => VotePage(poll: _polls[index]),
+                                        ),
+                                      );
+                                    },
+                                    child: PollCard(polls: _polls, index: index)));
                           },
                         ),
                 ],
