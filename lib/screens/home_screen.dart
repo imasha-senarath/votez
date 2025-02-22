@@ -22,8 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseService _firebase = FirebaseService();
   late String userId;
 
-  List<String> _categories = ["Food", "Technology", "Fashion"];
-  bool _isLoading = true;
+  final List<String> _categories = ["Food", "Technology", "Fashion", "Science", "Sports", "Life"];
 
   List<Map<String, dynamic>> _polls = [];
   bool _isPollsLoading = true;
@@ -130,15 +129,35 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    "Trending",
-                    style: TextStyle(
-                      color: AppColors.textSecondary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 15),
+                  SizedBox(
+                    height: 38,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _categories.length,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(right: index == _categories.length - 1 ? 0 : 5.0),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all( // Border settings
+                                  color: Colors.grey, // Border color
+                                  width: 1.0, // Border width
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                                child: Center(child: Text(_categories[index])),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(

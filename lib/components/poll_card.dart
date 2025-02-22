@@ -28,43 +28,38 @@ class PollCard extends StatelessWidget {
           children: [
             Text(
               poll['question'],
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(
               height: 15,
             ),
             Row(
-              children: const [
-                Icon(
-                  Icons.check_circle_outline,
-                  size: 20,
-                  color: AppColors.textPrimary,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  "3 Options",
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Icon(
+              children: [
+                const Icon(
                   Icons.thumb_up_alt_outlined,
                   size: 20,
                   color: AppColors.textPrimary,
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Text(
-                  "5 Voters",
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                  ),
+                  "5 Votes",
+                    style: Theme.of(context).textTheme.bodyLarge,
                 ),
+                const SizedBox(width: 10),
+                const Icon(
+                  Icons.check_circle_outline,
+                  size: 20,
+                  color: AppColors.textPrimary,
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  "3 Options",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+
               ],
             ),
             const SizedBox(
@@ -73,7 +68,10 @@ class PollCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text("${poll['time']} • ${poll['date']}")
+                Text(
+                  "${poll['time']} • ${poll['date']}",
+                    style: Theme.of(context).textTheme.bodySmall,
+                )
               ],
             )
           ],
