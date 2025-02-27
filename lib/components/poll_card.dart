@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../models/poll.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 
 class PollCard extends StatelessWidget {
+  final Poll poll;
+  final int voteCount;
+
   const PollCard({
     super.key,
-    required this.polls,
-    required this.index,
+    required this.poll,
+    required this.voteCount,
   });
-
-  final List<Map<String, dynamic>> polls;
-  final int index;
 
   @override
   Widget build(BuildContext context) {
-    final poll = polls[index];
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -27,7 +27,7 @@ class PollCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              poll['question'],
+              poll.question,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(
@@ -42,8 +42,8 @@ class PollCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  "5 Votes",
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  "$voteCount Votes",
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(width: 10),
                 const Icon(
@@ -53,13 +53,12 @@ class PollCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  "3 Options",
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  "${poll.options.length} Options",
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(
                   width: 15,
                 ),
-
               ],
             ),
             const SizedBox(
@@ -69,8 +68,8 @@ class PollCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "${poll['time']} • ${poll['date']}",
-                    style: Theme.of(context).textTheme.bodySmall,
+                  "${poll.time} • ${poll.date}",
+                  style: Theme.of(context).textTheme.bodyMedium,
                 )
               ],
             )

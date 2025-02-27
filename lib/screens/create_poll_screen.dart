@@ -48,7 +48,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
     if (question.isEmpty || options.any((option) => option.isEmpty)) {
       AppDialog.showToast(context: context, message: "Field's can't be empty.");
     } else {
-      final poll = Poll(question: question, options: options, user: userId!);
+      final poll = Poll(id: '', question: question, options: options, user: userId!);
       final pollMapData = poll.toMap();
 
       try {
@@ -91,7 +91,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
             ),
             Text(
               "Enter Your Question",
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(
               height: 10,
@@ -106,7 +106,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
             ),
             Text(
               "Enter Options",
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(
               height: 10,
@@ -139,12 +139,9 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
             ),
             Row(
               children: [
-                const Text(
+                Text(
                   'Anonymous',
-                  style: TextStyle(
-                    fontSize: 18.0, // Adjust the font size here
-                    fontWeight: FontWeight.normal, // Add optional styling
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const Spacer(),
                 Switch(

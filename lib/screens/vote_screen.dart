@@ -10,9 +10,12 @@ import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 
 class VotePage extends StatefulWidget {
-  final Map<String, dynamic> poll;
+  final Poll poll;
 
-  const VotePage({Key? key, required this.poll}) : super(key: key);
+  const VotePage({
+    super.key,
+    required this.poll,
+  });
 
   @override
   State<VotePage> createState() => _VotePageState();
@@ -22,8 +25,6 @@ class _VotePageState extends State<VotePage> {
   final FirebaseService _firebase = FirebaseService();
   late String? userId = FirebaseService.getUserId();
 
-  late List<String> _options;
-  bool _isOptionsLoading = true;
   bool _isVoted = false;
 
   List<Map<String, dynamic>> _pollsData = [];
@@ -31,17 +32,11 @@ class _VotePageState extends State<VotePage> {
   @override
   void initState() {
     super.initState();
-    _analyzePoll();
-  }
-
-  void _analyzePoll() {
-    _options = widget.poll['options'].split('|');
-    _isOptionsLoading = false;
   }
 
   Future<void> _fetchPollsData() async {
     try {
-      List<Map<String, dynamic>> fetchedData = await _firebase.getFilteredData('Votes', "poll", widget.poll['id']);
+      List<Map<String, dynamic>> fetchedData = await _firebase.getFilteredData('Votes', "poll", widget.poll.id);
       setState(() {
         _pollsData = fetchedData;
       });
@@ -52,7 +47,7 @@ class _VotePageState extends State<VotePage> {
 
   Future<void> _vote(int option) async {
     Map<String, dynamic> voteData = {
-      "poll": widget.poll['id'],
+      "poll": widget.poll.id,
       "option": option,
       "user": userId,
       "time": DateUtil.getCurrentTime(),
@@ -84,37 +79,35 @@ class _VotePageState extends State<VotePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.poll['question'],
+              widget.poll.question,
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 20),
-            _isOptionsLoading
-                ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: _options.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final option = _options[index];
-                      return Padding(
-                          padding: EdgeInsets.only(bottom: index == _options.length - 1 ? 0 : 5.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              _vote(index);
-                            },
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: AppColors.grey, // Background color
-                                borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-                              ),
-                              child: PollItem(
-                                option: option,
-                                isVoted: _isVoted,
-                              ),
-                            ),
-                          ));
-                    },
-                  ),
+            ListView.builder(
+              itemCount: widget.poll.options.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final option = widget.poll.options[index];
+                return Padding(
+                    padding: EdgeInsets.only(bottom: index == widget.poll.options.length - 1 ? 0 : 5.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _vote(index);
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.grey, // Background color
+                          borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                        ),
+                        child: PollItem(
+                          option: option,
+                          isVoted: _isVoted,
+                        ),
+                      ),
+                    ));
+              },
+            ),
             const SizedBox(
               height: 20,
             ),
