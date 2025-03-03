@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Map<String, int> getVoteCounts() {
+  Map<String, int> getVoteCount() {
     Map<String, int> pollVoteCounts = {};
 
     for (Poll poll in _polls) {
@@ -209,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             final poll = _polls[index];
-                            int voteCount = getVoteCounts()[poll.id] ?? 0;
+                            int voteCount = getVoteCount()[poll.id] ?? 0;
                             return Padding(
                               padding: EdgeInsets.only(bottom: index == _polls.length - 1 ? 0 : 5.0),
                               child: GestureDetector(

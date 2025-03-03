@@ -4,6 +4,7 @@ import '../components/AppBar.dart';
 import '../components/app_dialog.dart';
 import '../components/poll_item.dart';
 import '../models/poll.dart';
+import '../models/vote.dart';
 import '../services/firebase_service.dart';
 import '../utils/DateUtils.dart';
 import '../utils/constants/colors.dart';
@@ -25,24 +26,57 @@ class _VotePageState extends State<VotePage> {
   final FirebaseService _firebase = FirebaseService();
   late String? userId = FirebaseService.getUserId();
 
-  bool _isVoted = false;
+  List<Vote> _votes = [];
+  int _voteCount = 0;
+  int _votedOption = -1;
 
-  List<Map<String, dynamic>> _pollsData = [];
+  bool _isFetchingData = true;
 
   @override
   void initState() {
     super.initState();
+    _fetchVotes();
   }
 
-  Future<void> _fetchPollsData() async {
+  Future<void> _fetchVotes() async {
     try {
-      List<Map<String, dynamic>> fetchedData = await _firebase.getFilteredData('Votes', "poll", widget.poll.id);
+      List<Map<String, dynamic>> fetchedData = await _firebase.getData('Votes');
       setState(() {
-        _pollsData = fetchedData;
+        _votes = fetchedData.map((data) => Vote.fromMap(data)).toList();
+        analysePoll();
       });
     } catch (e) {
       print('Error: $e');
+      setState(() {
+        _isFetchingData = false;
+      });
     }
+  }
+
+  void analysePoll() {
+    _voteCount = getVoteCount(widget.poll.id);
+    _votedOption = getVotedOption(widget.poll.id, userId!);
+    AppDialog.showToast(context: context, message: _votedOption.toString());
+    setState(() {
+      _isFetchingData = false;
+    });
+  }
+
+  int getVoteCount(String pollId) {
+    return _votes.where((vote) => vote.poll == pollId).length;
+  }
+
+  int getVotedOption(String pollId, String userId) {
+    final vote = _votes.firstWhere(
+      (vote) => vote.poll == pollId && vote.user == userId,
+      orElse: () => Vote(id: '', poll: '', option: -1, user: '', date: '', time: ''),
+    );
+
+    return vote.option;
+  }
+
+  bool hasUserVoted(String pollId, String userId) {
+    return _votes.any((vote) => vote.poll == pollId && vote.user == userId);
   }
 
   Future<void> _vote(int option) async {
@@ -58,7 +92,8 @@ class _VotePageState extends State<VotePage> {
       await _firebase.addData("Votes", voteData, null);
       AppDialog.showToast(context: context, message: "Voted");
       setState(() {
-        _isVoted = true;
+        _votedOption = option;
+        _fetchVotes();
       });
     } catch (e) {
       AppDialog.showErrorDialog(context: context, message: "Failed to add data: $e");
@@ -73,67 +108,64 @@ class _VotePageState extends State<VotePage> {
         title: "Vote",
         enableBackButton: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppSizes.defaultSpace),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.poll.question,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 20),
-            ListView.builder(
-              itemCount: widget.poll.options.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                final option = widget.poll.options[index];
-                return Padding(
-                    padding: EdgeInsets.only(bottom: index == widget.poll.options.length - 1 ? 0 : 5.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        _vote(index);
-                      },
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: AppColors.grey, // Background color
-                          borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-                        ),
-                        child: PollItem(
-                          option: option,
-                          isVoted: _isVoted,
+      body: _isFetchingData
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(AppSizes.defaultSpace),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.poll.question,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 20),
+                  ListView.builder(
+                    itemCount: widget.poll.options.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final option = widget.poll.options[index];
+                      return Padding(
+                          padding: EdgeInsets.only(bottom: index == widget.poll.options.length - 1 ? 0 : 5.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              _votedOption == -1 ? _vote(index) : null;
+                            },
+                            child: PollItem(
+                              option: option,
+                              votedOption: _votedOption,
+                              index: index,
+                            ),
+                          ));
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      const Icon(
+                        Icons.thumb_up_alt_outlined,
+                        size: 20,
+                        color: AppColors.textPrimary,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        "$_voteCount Voters",
+                        style: const TextStyle(
+                          color: AppColors.textPrimary,
                         ),
                       ),
-                    ));
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: const [
-                Spacer(),
-                Icon(
-                  Icons.thumb_up_alt_outlined,
-                  size: 20,
-                  color: AppColors.textPrimary,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  "5 Voters",
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
+                      const SizedBox(
+                        width: 10,
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
