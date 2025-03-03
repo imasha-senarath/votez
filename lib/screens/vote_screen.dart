@@ -27,8 +27,10 @@ class _VotePageState extends State<VotePage> {
   late String? userId = FirebaseService.getUserId();
 
   List<Vote> _votes = [];
-  int _voteCount = 0;
+  int _totalVotes = 0;
   int _votedOption = -1;
+
+  Map<int, int> _votePercentages = {0: 0};
 
   bool _isFetchingData = true;
 
@@ -40,7 +42,7 @@ class _VotePageState extends State<VotePage> {
 
   Future<void> _fetchVotes() async {
     try {
-      List<Map<String, dynamic>> fetchedData = await _firebase.getData('Votes');
+      List<Map<String, dynamic>> fetchedData = await _firebase.getFilteredData('Votes', 'poll', widget.poll.id);
       setState(() {
         _votes = fetchedData.map((data) => Vote.fromMap(data)).toList();
         analysePoll();
@@ -54,16 +56,15 @@ class _VotePageState extends State<VotePage> {
   }
 
   void analysePoll() {
-    _voteCount = getVoteCount(widget.poll.id);
-    _votedOption = getVotedOption(widget.poll.id, userId!);
-    AppDialog.showToast(context: context, message: _votedOption.toString());
+    if (_votes.isNotEmpty) {
+      _totalVotes = _votes.length;
+      _votedOption = getVotedOption(widget.poll.id, userId!);
+      _votePercentages = getVotePercentages();
+    }
+
     setState(() {
       _isFetchingData = false;
     });
-  }
-
-  int getVoteCount(String pollId) {
-    return _votes.where((vote) => vote.poll == pollId).length;
   }
 
   int getVotedOption(String pollId, String userId) {
@@ -75,8 +76,20 @@ class _VotePageState extends State<VotePage> {
     return vote.option;
   }
 
-  bool hasUserVoted(String pollId, String userId) {
-    return _votes.any((vote) => vote.poll == pollId && vote.user == userId);
+  Map<int, int> getVotePercentages() {
+    int totalVotes = _votes.length;
+
+    Map<int, int> optionCounts = {};
+    for (Vote vote in _votes) {
+      optionCounts[vote.option] = (optionCounts[vote.option] ?? 0) + 1;
+    }
+
+    Map<int, int> votePercentages = {};
+    optionCounts.forEach((option, count) {
+      votePercentages[option] = ((count / totalVotes) * 100).round();
+    });
+
+    return votePercentages;
   }
 
   Future<void> _vote(int option) async {
@@ -136,6 +149,7 @@ class _VotePageState extends State<VotePage> {
                               option: option,
                               votedOption: _votedOption,
                               index: index,
+                              votePercentages: _votePercentages,
                             ),
                           ));
                     },
@@ -153,7 +167,7 @@ class _VotePageState extends State<VotePage> {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        "$_voteCount Voters",
+                        "$_totalVotes Voters",
                         style: const TextStyle(
                           color: AppColors.textPrimary,
                         ),

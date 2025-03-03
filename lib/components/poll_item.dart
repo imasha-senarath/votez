@@ -11,17 +11,20 @@ class PollItem extends StatelessWidget {
     required this.option,
     required this.votedOption,
     required this.index,
+    required this.votePercentages,
   });
 
   final String option;
   final int votedOption;
   final int index;
+  final Map<int, int> votePercentages;
 
   @override
   Widget build(BuildContext context) {
 
     final bool isVoted = votedOption != -1;
     final bool isSelected = votedOption != -1 && index == votedOption;
+    final int percentage = votePercentages[index] ?? 0;
 
     return Container(
       decoration: BoxDecoration(
@@ -35,16 +38,16 @@ class PollItem extends StatelessWidget {
             Text(
               option,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: isSelected ? Colors.white : null,
-              ),
+                    color: isSelected ? Colors.white : null,
+                  ),
             ),
             const Spacer(),
             if (isVoted)
               Text(
-                "70%",
+                '$percentage%',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: isSelected ? Colors.white : null,
-                ),
+                      color: isSelected ? Colors.white : null,
+                    ),
               )
           ],
         ),
