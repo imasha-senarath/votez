@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 AppButton(
                   onTap: validation,

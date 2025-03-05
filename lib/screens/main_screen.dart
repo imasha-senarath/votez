@@ -15,7 +15,6 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    //const AnalyticsPage(),
     const SettingPage(),
   ];
 
@@ -34,10 +33,6 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.home),
             label: "Home",
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.analytics),
-          //   label: "Analytics",
-          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: "Setting",

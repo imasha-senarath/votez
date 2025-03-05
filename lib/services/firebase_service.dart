@@ -3,9 +3,52 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static String? getUserId() {
     return FirebaseAuth.instance.currentUser?.uid;
+  }
+
+  // Register User
+  Future<String?> registerUser(String email, String password, String name) async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        await _firestore.collection('Users').doc(user.uid).set({
+          'name': name,
+          'email': email,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+
+        return null;
+      }
+
+    } on FirebaseAuthException catch (e) {
+      return e.toString();
+    } catch (e) {
+      return "An unknown error. Please try again.";
+    }
+    return null;
+  }
+
+  // Login User
+  Future<User?> loginUser(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential.user;
+    } catch (e) {
+      print("Error logging in: $e");
+      rethrow;
+    }
   }
 
   // Add Data

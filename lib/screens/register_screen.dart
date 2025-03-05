@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../components/app_dialog.dart';
 import '../components/button.dart';
 import '../components/text_field.dart';
+import '../services/firebase_service.dart';
 import '../utils/constants/app_assets.dart';
 import '../utils/constants/sizes.dart';
 
@@ -15,9 +17,38 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final FirebaseService _firebase = FirebaseService();
+
   final nameTextController = TextEditingController();
-  final nicTextController = TextEditingController();
+  final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
+
+  late String name;
+  late String email;
+  late String password;
+
+  void validation() {
+    name = nameTextController.text;
+    email = emailTextController.text;
+    password = passwordTextController.text;
+
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+      AppDialog.showToast(context: context, message: "Field's can't be empty.");
+    } else {
+      register();
+    }
+  }
+
+  void register() async {
+    AppDialog.showLoading(context: context);
+
+    String? error = await _firebase.registerUser(email, password, name);
+
+    if (error != null) {
+      AppDialog.hideDialog(context);
+      AppDialog.showErrorDialog(context: context, message: error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 10,
                 ),
                 AppTextField(
-                  textEditingController: nicTextController,
+                  textEditingController: emailTextController,
                   labelText: "Email",
                   obscureText: false,
                 ),
@@ -74,7 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 30,
                 ),
                 AppButton(
-                  onTap: () {},
+                  onTap: () {
+                    validation();
+                  },
                   text: "Register",
                 ),
                 const SizedBox(
