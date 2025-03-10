@@ -11,4 +11,9 @@ class DateUtil {
     final now = DateTime.now();
     return DateFormat('HH:mm').format(now);
   }
+
+  static String getGreeting() {
+    int hour = DateTime.now().hour;
+    return hour < 12 ? "Good Morning" : "Good Evening";
+  }
 }
