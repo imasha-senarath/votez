@@ -4,9 +4,11 @@ import '../components/AppBar.dart';
 import '../components/app_dialog.dart';
 import '../components/poll_item.dart';
 import '../models/poll.dart';
+import '../models/profile.dart';
 import '../models/vote.dart';
 import '../services/firebase_service.dart';
 import '../utils/DateUtils.dart';
+import '../utils/constants/app_assets.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 
@@ -26,6 +28,8 @@ class _VotePageState extends State<VotePage> {
   final FirebaseService _firebase = FirebaseService();
   late String? userId = FirebaseService.getUserId();
 
+  late Profile profile;
+
   List<Vote> _votes = [];
   int _totalVotes = 0;
   int _votedOption = -1;
@@ -37,7 +41,21 @@ class _VotePageState extends State<VotePage> {
   @override
   void initState() {
     super.initState();
-    _fetchVotes();
+    _fetchProfile(widget.poll.user);
+  }
+
+  Future<void> _fetchProfile(String id) async {
+    try {
+      Map<String, dynamic>? fetchedData = await _firebase.getSingleData('Users', id);
+      setState(() {
+        profile = Profile.fromMap(fetchedData!);
+        _fetchVotes();
+      });
+    } catch (e) {
+      setState(() {
+        AppDialog.showErrorDialog(context: context, message: e.toString());
+      });
+    }
   }
 
   Future<void> _fetchVotes() async {
@@ -128,11 +146,31 @@ class _VotePageState extends State<VotePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      const Image(
+                        image: AssetImage(AppAssets.user),
+                        width: 25,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        profile.name,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     widget.poll.question,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   ListView.builder(
                     itemCount: widget.poll.options.length,
                     shrinkWrap: true,
@@ -159,7 +197,9 @@ class _VotePageState extends State<VotePage> {
                   ),
                   Row(
                     children: [
-                      const Spacer(),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       const Icon(
                         Icons.thumb_up_alt_outlined,
                         size: 20,
@@ -168,9 +208,12 @@ class _VotePageState extends State<VotePage> {
                       const SizedBox(width: 5),
                       Text(
                         "$_totalVotes Voters",
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
-                        ),
+                          style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const Spacer(),
+                      Text(
+                        "${widget.poll.time} • ${widget.poll.date}",
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(
                         width: 10,

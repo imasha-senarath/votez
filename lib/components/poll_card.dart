@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/poll.dart';
+import '../utils/constants/app_assets.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 
@@ -26,6 +27,24 @@ class PollCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              children: [
+                const Image(
+                  image: AssetImage(AppAssets.user),
+                  width: 20,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  poll.user,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
             Text(
               poll.question,
               style: Theme.of(context).textTheme.bodyLarge,

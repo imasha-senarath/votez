@@ -13,14 +13,14 @@ import '../utils/constants/app_assets.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 
-class SettingPage extends StatefulWidget {
-  const SettingPage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<SettingPage> createState() => _SettingPageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _SettingPageState extends State<SettingPage> {
+class _ProfilePageState extends State<ProfilePage> {
   final FirebaseService _firebase = FirebaseService();
   late String userId;
 

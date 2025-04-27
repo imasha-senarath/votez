@@ -53,8 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     } catch (e) {
       setState(() {
-        _isProfileLoading = false;
-        print('Error: $e');
+        AppDialog.showErrorDialog(context: context, message: e.toString());
       });
     }
   }
@@ -136,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(18),
+                                padding: const EdgeInsets.all(18),
                                 child: Row(
                                   children: [
                                     Column(
@@ -159,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         )
                                       ],
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     const Image(
                                       image: AssetImage(AppAssets.user),
                                       width: 45,

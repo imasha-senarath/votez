@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:votez/components/button.dart';
+import 'package:votez/components/app_button.dart';
 import 'package:votez/components/text_field.dart';
 import 'package:votez/utils/constants/app_assets.dart';
 

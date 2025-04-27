@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../components/app_dialog.dart';
-import '../components/button.dart';
+import '../components/app_button.dart';
 import '../components/text_field.dart';
 import '../services/firebase_service.dart';
 import '../utils/constants/app_assets.dart';

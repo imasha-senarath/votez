@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../components/AppBar.dart';
 import '../components/app_dialog.dart';
-import '../components/button.dart';
+import '../components/app_button.dart';
 import '../components/button_outline.dart';
 import '../components/text_field.dart';
 import '../models/poll.dart';
@@ -24,8 +24,6 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
   final questionTextController = TextEditingController();
   final List<TextEditingController> _optionControllers = [];
   final List<AppTextField> _optionTextFields = [];
-
-  bool _isAnonymous = false;
 
   void _addOptions() {
     setState(() {
@@ -90,7 +88,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
               height: 20,
             ),
             Text(
-              "Enter Your Question",
+              "Enter your question",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(
@@ -105,7 +103,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
               height: 20,
             ),
             Text(
-              "Enter Options",
+              "Enter options",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(
@@ -136,23 +134,6 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
                   ],
                 ),
               ),
-            ),
-            Row(
-              children: [
-                Text(
-                  'Anonymous',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const Spacer(),
-                Switch(
-                  value: _isAnonymous,
-                  onChanged: (value) {
-                    setState(() {
-                      _isAnonymous = value;
-                    });
-                  },
-                ),
-              ],
             ),
             const SizedBox(
               height: 10,
