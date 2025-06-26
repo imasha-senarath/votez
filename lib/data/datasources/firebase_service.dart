@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:votez/data/models/UserModel.dart';
 
 class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -38,13 +39,20 @@ class FirebaseService {
   }
 
   // Login User
-  Future<bool> loginUser(String email, String password) async {
+  Future<UserModel?> loginUser(UserModel userModel) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: userModel.email!,
+        password: userModel.password!,
       );
-      return true;
+
+      User? firebaseUser = userCredential.user;
+
+      if (firebaseUser != null) {
+        return UserModel.fromFirebaseUser(firebaseUser);
+      } else {
+        return null;
+      }
     } catch (e) {
       print("Error logging in: $e");
       rethrow;

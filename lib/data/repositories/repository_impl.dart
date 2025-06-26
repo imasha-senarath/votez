@@ -16,26 +16,14 @@ class RepositoryImpl implements Repository {
   RepositoryImpl({required this.firebase});
 
   @override
-  Future<Either<Failure, bool>> login(UserModel userModel) async {
+  Future<Either<Failure, UserModel>> login(UserModel userModel) async {
     try {
 
-      //final userModel = await firebase.loginUser(userModel);
-      return const Right(true);
+      final user = await firebase.loginUser(userModel);
+      return Right(user!);
 
-      /*await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
-
-      final userModel = await authDataSource.login(user);
-      return Right(userModel);*/
     } on Exception catch (e) {
-      if (e.toString().contains('Invalid credentials')) {
-        return const Left(InvalidCredentialsFailure());
-      } else {
-        return const Left(ServerFailure());
-      }
+      return const Left(InvalidCredentialsFailure());
     }
   }
-  
 }

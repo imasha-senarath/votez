@@ -6,5 +6,5 @@ import '../entities/User.dart';
 
 abstract class Repository {
 
-  Future<Either<Failure, bool>> login(UserModel userModel);
+  Future<Either<Failure, UserModel>> login(UserModel userModel);
 }

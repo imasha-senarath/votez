@@ -11,7 +11,7 @@ class LoginUseCase {
 
   LoginUseCase(this.repository);
 
-  Future<Either<Failure, bool>> call(UserModel userModel) async {
+  Future<Either<Failure, UserModel>> call(UserModel userModel) async {
     return await repository.login(userModel);
   }
 }
