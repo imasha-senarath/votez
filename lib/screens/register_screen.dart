@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../components/app_dialog.dart';
 import '../components/app_button.dart';
 import '../components/text_field.dart';
-import '../services/firebase_service.dart';
-import '../utils/constants/app_assets.dart';
-import '../utils/constants/sizes.dart';
+import '../data/datasources/firebase_service.dart';
+import '../core/constants/app_assets.dart';
+import '../core/constants/sizes.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function() onTap;

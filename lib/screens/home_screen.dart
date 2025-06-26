@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:votez/models/vote.dart';
 import 'package:votez/screens/vote_screen.dart';
 import 'package:votez/screens/create_poll_screen.dart';
-import 'package:votez/utils/constants/colors.dart';
+import 'package:votez/core/constants/colors.dart';
 
 import '../components/app_dialog.dart';
 import '../components/poll_card.dart';
 import '../models/poll.dart';
 import '../models/profile.dart';
-import '../services/firebase_service.dart';
+import '../data/datasources/firebase_service.dart';
 import '../utils/DateUtils.dart';
-import '../utils/constants/app_assets.dart';
-import '../utils/constants/sizes.dart';
+import '../core/constants/app_assets.dart';
+import '../core/constants/sizes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

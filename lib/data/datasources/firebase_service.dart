@@ -38,13 +38,13 @@ class FirebaseService {
   }
 
   // Login User
-  Future<User?> loginUser(String email, String password) async {
+  Future<bool> loginUser(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return userCredential.user;
+      return true;
     } catch (e) {
       print("Error logging in: $e");
       rethrow;

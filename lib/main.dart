@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:votez/screens/splash_screen.dart';
-import 'package:votez/utils/constants/colors.dart';
+import 'package:votez/core/constants/colors.dart';
 import 'package:votez/utils/theme/theme.dart';
 
 void main() async {

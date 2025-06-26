@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:votez/screens/login_screen.dart';
+import 'package:votez/presentation/screens/login_screen.dart';
 import 'package:votez/screens/register_screen.dart';
 
 class LoginOrRegister extends StatefulWidget {

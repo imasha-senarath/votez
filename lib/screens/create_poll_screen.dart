@@ -6,9 +6,9 @@ import '../components/app_button.dart';
 import '../components/button_outline.dart';
 import '../components/text_field.dart';
 import '../models/poll.dart';
-import '../services/firebase_service.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/sizes.dart';
+import '../data/datasources/firebase_service.dart';
+import '../core/constants/colors.dart';
+import '../core/constants/sizes.dart';
 
 class CreatePollScreen extends StatefulWidget {
   const CreatePollScreen({Key? key}) : super(key: key);

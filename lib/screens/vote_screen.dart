@@ -6,11 +6,11 @@ import '../components/poll_item.dart';
 import '../models/poll.dart';
 import '../models/profile.dart';
 import '../models/vote.dart';
-import '../services/firebase_service.dart';
+import '../data/datasources/firebase_service.dart';
 import '../utils/DateUtils.dart';
-import '../utils/constants/app_assets.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/sizes.dart';
+import '../core/constants/app_assets.dart';
+import '../core/constants/colors.dart';
+import '../core/constants/sizes.dart';
 
 class VotePage extends StatefulWidget {
   final Poll poll;

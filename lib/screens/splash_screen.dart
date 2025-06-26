@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:votez/screens/home_screen.dart';
 
-import '../services/auth.dart';
-import '../utils/constants/colors.dart';
+import '../data/datasources/auth.dart';
+import '../core/constants/colors.dart';
 import 'main_screen.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -2,15 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:votez/blocs/login/login_event.dart';
-import 'package:votez/blocs/login/login_state.dart';
+import 'package:votez/presentation/blocs/login/login_event.dart';
+import 'package:votez/presentation/blocs/login/login_state.dart';
 import 'package:votez/components/app_button.dart';
 import 'package:votez/components/text_field.dart';
-import 'package:votez/utils/constants/app_assets.dart';
+import 'package:votez/core/constants/app_assets.dart';
 
 import '../blocs/login/login_bloc.dart';
-import '../components/app_dialog.dart';
-import '../utils/constants/sizes.dart';
+import '../../components/app_dialog.dart';
+import '../../core/constants/sizes.dart';
 
 class LoginScreen extends StatefulWidget {
   final Function() onTap;
