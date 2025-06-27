@@ -2,18 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:votez/models/vote.dart';
-import 'package:votez/screens/vote_screen.dart';
-import 'package:votez/screens/create_poll_screen.dart';
+import 'package:votez/presentation/screens/vote_screen.dart';
+import 'package:votez/presentation/screens/create_poll_screen.dart';
 import 'package:votez/core/constants/colors.dart';
 
-import '../components/app_dialog.dart';
-import '../components/poll_card.dart';
-import '../models/poll.dart';
-import '../models/profile.dart';
-import '../data/datasources/firebase_service.dart';
-import '../utils/DateUtils.dart';
-import '../core/constants/app_assets.dart';
-import '../core/constants/sizes.dart';
+import '../../core/widgets/app_dialog.dart';
+import '../../core/widgets/poll_card.dart';
+import '../../models/poll.dart';
+import '../../models/profile.dart';
+import '../../data/datasources/firebase_service.dart';
+import '../../utils/DateUtils.dart';
+import '../../core/constants/app_assets.dart';
+import '../../core/constants/sizes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

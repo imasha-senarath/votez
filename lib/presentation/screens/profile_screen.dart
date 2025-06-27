@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:votez/components/appbar.dart';
+import 'package:votez/core/widgets/appbar.dart';
 import 'package:votez/presentation/screens/login_screen.dart';
 
-import '../components/app_dialog.dart';
-import '../data/datasources/auth.dart';
-import '../data/datasources/firebase_service.dart';
-import '../core/constants/app_assets.dart';
-import '../core/constants/colors.dart';
-import '../core/constants/sizes.dart';
+import '../../core/widgets/app_dialog.dart';
+import '../../data/datasources/auth.dart';
+import '../../data/datasources/firebase_service.dart';
+import '../../core/constants/app_assets.dart';
+import '../../core/constants/colors.dart';
+import '../../core/constants/sizes.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

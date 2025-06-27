@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../components/AppBar.dart';
-import '../components/app_dialog.dart';
-import '../components/app_button.dart';
-import '../components/button_outline.dart';
-import '../components/text_field.dart';
-import '../models/poll.dart';
-import '../data/datasources/firebase_service.dart';
-import '../core/constants/colors.dart';
-import '../core/constants/sizes.dart';
+import '../../components/AppBar.dart';
+import '../../core/widgets/app_dialog.dart';
+import '../../core/widgets/app_button.dart';
+import '../../core/widgets/button_outline.dart';
+import '../../core/widgets/text_field.dart';
+import '../../models/poll.dart';
+import '../../data/datasources/firebase_service.dart';
+import '../../core/constants/colors.dart';
+import '../../core/constants/sizes.dart';
 
 class CreatePollScreen extends StatefulWidget {
   const CreatePollScreen({Key? key}) : super(key: key);

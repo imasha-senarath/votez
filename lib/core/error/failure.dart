@@ -12,15 +12,3 @@ abstract class Failure extends Equatable {
 class ServerFailure extends Failure {
   const ServerFailure([super.message = 'Server error occurred']);
 }
-
-class NetworkFailure extends Failure {
-  const NetworkFailure([super.message = 'Network error occurred']);
-}
-
-class InvalidCredentialsFailure extends Failure {
-  const InvalidCredentialsFailure([super.message = 'Invalid email or password']);
-}
-
-class ValidationFailure extends Failure {
-  const ValidationFailure([super.message = 'Validation failed']);
-}

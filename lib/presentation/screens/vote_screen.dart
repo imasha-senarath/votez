@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../components/AppBar.dart';
-import '../components/app_dialog.dart';
-import '../components/poll_item.dart';
-import '../models/poll.dart';
-import '../models/profile.dart';
-import '../models/vote.dart';
-import '../data/datasources/firebase_service.dart';
-import '../utils/DateUtils.dart';
-import '../core/constants/app_assets.dart';
-import '../core/constants/colors.dart';
-import '../core/constants/sizes.dart';
+import '../../components/AppBar.dart';
+import '../../core/widgets/app_dialog.dart';
+import '../../core/widgets/poll_item.dart';
+import '../../models/poll.dart';
+import '../../models/profile.dart';
+import '../../models/vote.dart';
+import '../../data/datasources/firebase_service.dart';
+import '../../utils/DateUtils.dart';
+import '../../core/constants/app_assets.dart';
+import '../../core/constants/colors.dart';
+import '../../core/constants/sizes.dart';
 
 class VotePage extends StatefulWidget {
   final Poll poll;

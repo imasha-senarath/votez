@@ -2,8 +2,8 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-import '../core/constants/colors.dart';
-import '../core/constants/sizes.dart';
+import '../constants/colors.dart';
+import '../constants/sizes.dart';
 
 class PollItem extends StatelessWidget {
   const PollItem({

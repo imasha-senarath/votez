@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../models/poll.dart';
-import '../core/constants/app_assets.dart';
-import '../core/constants/colors.dart';
-import '../core/constants/sizes.dart';
+import '../../models/poll.dart';
+import '../constants/app_assets.dart';
+import '../constants/colors.dart';
+import '../constants/sizes.dart';
 
 class PollCard extends StatelessWidget {
   final Poll poll;

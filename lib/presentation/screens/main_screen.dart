@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:votez/screens/home_screen.dart';
-import 'package:votez/screens/profile_screen.dart';
+import 'package:votez/presentation/screens/home_screen.dart';
+import 'package:votez/presentation/screens/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
