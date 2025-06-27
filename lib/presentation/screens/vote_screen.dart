@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../components/AppBar.dart';
 import '../../core/widgets/app_dialog.dart';
+import '../../core/widgets/appbar.dart';
 import '../../core/widgets/poll_item.dart';
 import '../../models/poll.dart';
 import '../../models/profile.dart';

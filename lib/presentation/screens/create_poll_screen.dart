@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../components/AppBar.dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/app_button.dart';
+import '../../core/widgets/appbar.dart';
 import '../../core/widgets/button_outline.dart';
 import '../../core/widgets/text_field.dart';
 import '../../models/poll.dart';
