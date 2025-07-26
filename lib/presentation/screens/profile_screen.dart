@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:votez/core/widgets/appbar.dart';
 import 'package:votez/presentation/screens/login_screen.dart';
 
 import '../../core/widgets/app_dialog.dart';
+import '../../core/widgets/setting_card.dart';
 import '../../data/datasources/auth.dart';
 import '../../data/datasources/firebase_service.dart';
 import '../../core/constants/app_assets.dart';
@@ -23,6 +25,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final FirebaseService _firebase = FirebaseService();
   late String userId;
+  String appVersion = "";
 
   bool isLoading = true;
   late Map<String, dynamic>? profileData;
@@ -30,6 +33,13 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      setState(() {
+        appVersion = packageInfo.version;
+      });
+    });
+
     userId = FirebaseService.getUserId()!;
     _fetchProfile(userId);
   }
@@ -112,30 +122,33 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ), // Profile
-                    /*const SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Container(
                       decoration: const BoxDecoration(
                         color: AppColors.white, // Background color
                         borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(18),
-                        child: Column(
-                          children: const [
-                            SettingCard(
-                              title: 'Notifications',
-                              icon: Icons.notifications,
-                            ),
-                            SizedBox(height: 30),
-                            SettingCard(
-                              title: 'Theme',
-                              icon: Icons.color_lens,
-                            ),
-                          ],
-                        ),
+                      child: Column(
+                        children: [
+                          SettingCard(
+                            title: 'Language',
+                            icon: Icons.language,
+                            onTap: () {
+                              AppDialog.showToast(context: context, message: "Language.");
+                            },
+                          ),
+                          SettingCard(
+                            title: 'Theme',
+                            icon: Icons.color_lens,
+                            onTap: () {
+                              AppDialog.showToast(context: context, message: "Theme.");
+                            },
+                          ),
+                          const SizedBox(height: 5),
+                        ],
                       ),
-                    ),*/ // Settings
-                    const SizedBox(height: 15),
+                    ),
+                    const SizedBox(height: 10),
                     Container(
                       decoration: const BoxDecoration(
                         color: AppColors.white, // Background color
@@ -162,49 +175,24 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ],
                       ),
-                    ), // Logout
+                    ),
+                    const SizedBox(height: 20),
+                    const Spacer(),
+                    Text(
+                      "Version $appVersion",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Colors.black38,
+                      ),
+                    ),
+                    Text(
+                      "from Imasha Senarath",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Colors.black38,
+                      ),
+                    ),
                   ],
                 ),
               ),
-      ),
-    );
-  }
-}
-
-class SettingCard extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final Function()? onTap;
-
-  const SettingCard({
-    super.key,
-    required this.title,
-    required this.icon,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 26,
-              color: Colors.grey.shade400,
-            ),
-            const SizedBox(width: 10),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const Spacer(),
-            const Icon(Icons.navigate_next),
-          ],
-        ),
       ),
     );
   }
