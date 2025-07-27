@@ -41,8 +41,22 @@ class PollCard extends StatelessWidget {
                 ),
                 Text(
                   profile.name,
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600
+                  ),
                 ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "${poll.time} • ${poll.date}",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Colors.black54,
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
             const SizedBox(
@@ -83,18 +97,6 @@ class PollCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "${poll.time} • ${poll.date}",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )
-              ],
-            )
           ],
         ),
       ),
