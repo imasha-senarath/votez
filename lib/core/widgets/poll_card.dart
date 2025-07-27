@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../../models/poll.dart';
+import '../../models/profile.dart';
 import '../constants/app_assets.dart';
 import '../constants/colors.dart';
 import '../constants/sizes.dart';
 
 class PollCard extends StatelessWidget {
   final Poll poll;
+  final Profile profile;
   final int voteCount;
 
   const PollCard({
     super.key,
     required this.poll,
+    required this.profile,
     required this.voteCount,
   });
 
@@ -37,7 +40,7 @@ class PollCard extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  poll.user,
+                  profile.name,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],

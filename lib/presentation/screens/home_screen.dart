@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late Profile profile;
   bool _isProfileLoading = true;
 
+  List<Profile> _profiles = [];
   List<Poll> _polls = [];
   List<Vote> _votes = [];
 
@@ -40,20 +41,24 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     userId = FirebaseService.getUserId()!;
-    _fetchProfile(userId);
-    _fetchPolls();
+    _fetchUsers();
   }
 
-  Future<void> _fetchProfile(String id) async {
+  Future<void> _fetchUsers() async {
     try {
-      Map<String, dynamic>? fetchedData = await _firebase.getSingleData('Users', id);
+      List<Map<String, dynamic>> fetchedData = await _firebase.getData('Users');
       setState(() {
-        profile = Profile.fromMap(fetchedData!);
+        _profiles = fetchedData.map((data) => Profile.fromMap(data)).toList();
+
+        profile = getProfile(userId)!;
         _isProfileLoading = false;
+
+        _fetchPolls();
       });
     } catch (e) {
+      print('Error: $e');
       setState(() {
-        AppDialog.showErrorDialog(context: context, message: e.toString());
+        _isFetchingData = false;
       });
     }
   }
@@ -67,7 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     } catch (e) {
       print('Error: $e');
-      setState(() {});
+      setState(() {
+        _isFetchingData = false;
+      });
     }
   }
 
@@ -83,6 +90,14 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isFetchingData = false;
       });
+    }
+  }
+
+  Profile? getProfile(String id) {
+    try {
+      return _profiles.firstWhere((profile) => profile.id == id);
+    } catch (e) {
+      return null;
     }
   }
 
@@ -246,6 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                       child: PollCard(
                                         poll: poll,
+                                        profile: getProfile(poll.user)!,
                                         voteCount: voteCount,
                                       ),
                                     ),
