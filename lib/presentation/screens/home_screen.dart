@@ -247,6 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   final poll = _polls[index];
+                                  final pollProfile = getProfile(poll.user)!;
                                   int voteCount = getVoteCount()[poll.id] ?? 0;
                                   return Padding(
                                     padding: EdgeInsets.only(bottom: index == _polls.length - 1 ? 0 : 5.0),
@@ -255,13 +256,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => VotePage(poll: poll),
+                                            builder: (context) => VotePage(
+                                              poll: poll,
+                                              profile: pollProfile,
+                                            ),
                                           ),
                                         );
                                       },
                                       child: PollCard(
                                         poll: poll,
-                                        profile: getProfile(poll.user)!,
+                                        profile: pollProfile,
                                         voteCount: voteCount,
                                       ),
                                     ),

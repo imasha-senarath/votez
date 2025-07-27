@@ -14,10 +14,12 @@ import '../../core/constants/sizes.dart';
 
 class VotePage extends StatefulWidget {
   final Poll poll;
+  final Profile profile;
 
   const VotePage({
     super.key,
     required this.poll,
+    required this.profile,
   });
 
   @override
@@ -27,8 +29,6 @@ class VotePage extends StatefulWidget {
 class _VotePageState extends State<VotePage> {
   final FirebaseService _firebase = FirebaseService();
   late String? userId = FirebaseService.getUserId();
-
-  late Profile profile;
 
   List<Vote> _votes = [];
   int _totalVotes = 0;
@@ -41,21 +41,7 @@ class _VotePageState extends State<VotePage> {
   @override
   void initState() {
     super.initState();
-    _fetchProfile(widget.poll.user);
-  }
-
-  Future<void> _fetchProfile(String id) async {
-    try {
-      Map<String, dynamic>? fetchedData = await _firebase.getSingleData('Users', id);
-      setState(() {
-        profile = Profile.fromMap(fetchedData!);
-        _fetchVotes();
-      });
-    } catch (e) {
-      setState(() {
-        AppDialog.showErrorDialog(context: context, message: e.toString());
-      });
-    }
+    _fetchVotes();
   }
 
   Future<void> _fetchVotes() async {
@@ -156,7 +142,7 @@ class _VotePageState extends State<VotePage> {
                         width: 5,
                       ),
                       Text(
-                        profile.name,
+                        widget.profile.name,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ],

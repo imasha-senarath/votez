@@ -82,14 +82,14 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
           children: [
             Text(
               "Create your poll with multiple options.",
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(
               height: 20,
             ),
             Text(
               "Enter your question",
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(
               height: 10,
@@ -104,7 +104,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
             ),
             Text(
               "Enter options",
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(
               height: 10,
@@ -112,7 +112,6 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  //color: AppColors.white, // Background color
                   borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                 ),
                 child: Column(
