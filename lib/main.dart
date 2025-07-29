@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:votez/presentation/screens/splash_screen.dart';
 import 'package:votez/core/constants/colors.dart';
-import 'package:votez/utils/theme/theme.dart';
+
+import '../core/di/dependency_injection.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +16,7 @@ void main() async {
       projectId: "votez-73e1e",
     ),
   );
+  await di.init();
   runApp(const MyApp());
 }
 
