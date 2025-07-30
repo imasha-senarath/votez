@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../models/poll.dart';
+import '../../../models/profile.dart';
+
 abstract class HomeState extends Equatable {
   @override
   List<Object?> get props => [];
@@ -7,10 +10,14 @@ abstract class HomeState extends Equatable {
 
 class HomeStateInitial extends HomeState {}
 
-class GetUsersSuccessState extends HomeState {}
+class GetProfilesSuccessState extends HomeState {
+  final List<Profile> profiles;
 
-class GetUsersFailedState extends HomeState {
+  GetProfilesSuccessState({required this.profiles});
+}
+
+class GetProfilesFailedState extends HomeState {
   final String error;
 
-  GetUsersFailedState({required this.error});
+  GetProfilesFailedState({required this.error});
 }

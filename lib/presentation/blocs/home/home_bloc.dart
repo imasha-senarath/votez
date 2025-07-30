@@ -1,26 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models/UserModel.dart';
-import '../../../domain/usecases/get_users_usecase.dart';
+import '../../../domain/usecases/get_profiles_usecase.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final GetUsersUseCase getUsersUseCase;
+  final GetProfilesUseCase getProfilesUseCase;
 
-  HomeBloc({required this.getUsersUseCase}) : super(HomeStateInitial()) {
-    on<GetUsersEvent>(_getUsers);
+  HomeBloc({required this.getProfilesUseCase}) : super(HomeStateInitial()) {
+    on<GetProfilesEvent>(_getProfiles);
   }
 
-  Future<void> _getUsers(GetUsersEvent event, Emitter<HomeState> emit) async {
-    final result = await getUsersUseCase(UserModel(
-      email: "event.email",
-      password: "event.password",
-    ));
+  Future<void> _getProfiles(GetProfilesEvent event, Emitter<HomeState> emit) async {
+    final result = await getProfilesUseCase();
 
     result.fold(
-          (failure) => emit(GetUsersFailedState(error: failure.message)),
-          (user) => emit(GetUsersSuccessState()),
+          (failure) => emit(GetProfilesFailedState(error: failure.message)),
+          (profiles) => emit(GetProfilesSuccessState(profiles: profiles)),
     );
   }
 }
