@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:votez/presentation/screens/create_poll_screen.dart';
+import 'package:votez/presentation/screens/register_screen.dart';
 import 'package:votez/presentation/screens/splash_screen.dart';
 
 import '../../presentation/screens/login_screen.dart';
@@ -23,8 +24,14 @@ class AppRouter {
 
       case kLoginScreen:
         return MaterialPageRoute(
-          builder: (_) => LoginScreen(onTap: () {}),
+          builder: (_) => const LoginScreen(),
           settings: const RouteSettings(name: kLoginScreen),
+        );
+
+      case kRegisterScreen:
+        return MaterialPageRoute(
+          builder: (_) => const RegisterScreen(),
+          settings: const RouteSettings(name: kRegisterScreen),
         );
 
       case kCreatePollScreen:

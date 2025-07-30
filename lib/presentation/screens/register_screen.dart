@@ -8,9 +8,8 @@ import '../../core/constants/app_assets.dart';
 import '../../core/constants/sizes.dart';
 
 class RegisterScreen extends StatefulWidget {
-  final Function() onTap;
 
-  const RegisterScreen({super.key, required this.onTap});
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -121,7 +120,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       width: 5,
                     ),
                     GestureDetector(
-                      onTap: widget.onTap,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                       child: const Text(
                         "Login",
                         style: TextStyle(

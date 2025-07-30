@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
       await FirebaseAuth.instance.signOut();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen(onTap: () {})),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     } catch (e) {
       print('Error logging out: $e');

@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-
-import '../../../models/poll.dart';
 import '../../../models/profile.dart';
 
 abstract class HomeState extends Equatable {
