@@ -5,6 +5,7 @@ import 'package:votez/presentation/screens/splash_screen.dart';
 import 'package:votez/core/constants/colors.dart';
 
 import '../core/di/dependency_injection.dart' as di;
+import 'core/navigation/app_router..dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,25 +23,23 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  // This widget is the root of your application.
-
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: AppColors.primaryBackground, // Status bar color
         statusBarIconBrightness: Brightness.dark, // Icons color
       ),
     );
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: AppRouter.kSplashScreen,
+      onGenerateRoute: AppRouter.generateRoute,
       themeMode: ThemeMode.system,
       theme: ThemeData(),
       darkTheme: ThemeData(),
-      home: const SplashScreen(),
+      //home: const SplashScreen(),
     );
   }
 }

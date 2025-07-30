@@ -6,6 +6,7 @@ import 'package:votez/presentation/screens/vote_screen.dart';
 import 'package:votez/presentation/screens/create_poll_screen.dart';
 import 'package:votez/core/constants/colors.dart';
 
+import '../../core/navigation/app_router..dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/poll_card.dart';
 import '../../models/poll.dart';
@@ -122,12 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.primaryBackground,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const CreatePollScreen(),
-            ),
-          );
+          Navigator.of(context).pushNamed(AppRouter.kCreatePollScreen);
         },
         child: const Icon(Icons.add), // Icon for the FAB
       ),
