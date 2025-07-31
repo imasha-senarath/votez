@@ -36,10 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<String> _categories = ["Food", "Technology", "Fashion", "Science", "Sports", "Life"];
 
-  late Profile profile;
-  bool isProfileLoading = true;
+  late Profile _profile;
+  bool _isProfileLoading = true;
 
-  List<Profile> profiles = [];
+  List<Profile> _profiles = [];
   List<Poll> _polls = [];
   List<Vote> _votes = [];
 
@@ -51,42 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
     userId = FirebaseService.getUserId()!;
 
     _bloc.add(GetProfilesEvent());
-
-    //_fetchUsers();
-  }
-
-  /*Future<void> _fetchUsers() async {
-    try {
-      List<Map<String, dynamic>> fetchedData = await _firebase.getData('Users');
-      setState(() {
-        _profiles = fetchedData.map((data) => Profile.fromMap(data)).toList();
-
-        profile = getProfile(userId)!;
-        _isProfileLoading = false;
-
-        _fetchPolls();
-      });
-    } catch (e) {
-      print('Error: $e');
-      setState(() {
-        _isFetchingData = false;
-      });
-    }
-  }*/
-
-  Future<void> fetchPolls() async {
-    try {
-      List<Map<String, dynamic>> fetchedData = await _firebase.getData('Polls');
-      setState(() {
-        _polls = fetchedData.map((data) => Poll.fromMap(data)).toList();
-        _fetchVotes();
-      });
-    } catch (e) {
-      print('Error: $e');
-      setState(() {
-        _isFetchingData = false;
-      });
-    }
   }
 
   Future<void> _fetchVotes() async {
@@ -102,25 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
         _isFetchingData = false;
       });
     }
-  }
-
-  Profile? getProfile(String id) {
-    try {
-      return profiles.firstWhere((profile) => profile.id == id);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Map<String, int> getVoteCount() {
-    Map<String, int> pollVoteCounts = {};
-
-    for (Poll poll in _polls) {
-      int voteCount = _votes.where((vote) => vote.poll == poll.id).length;
-      pollVoteCounts[poll.id] = voteCount;
-    }
-
-    return pollVoteCounts;
   }
 
   void signOut() {
@@ -143,15 +88,21 @@ class _HomeScreenState extends State<HomeScreen> {
           child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               if (state is GetProfilesSuccessState) {
-                profiles = state.profiles;
-                profile = getProfile(userId)!;
-                isProfileLoading = false;
-                fetchPolls();
+                _profiles = state.profiles;
+                _profile = getProfile(userId)!;
+                _isProfileLoading = false;
+                _bloc.add(GetPollsEvent());
               } else if (state is GetProfilesFailedState) {
                 AppDialog.showErrorDialog(context: context, message: state.error);
               }
+              if (state is GetPollsSuccessState) {
+                _polls = state.polls;
+                _fetchVotes();
+              } else if (state is GetPollsFailedState) {
+                AppDialog.showErrorDialog(context: context, message: state.error);
+              }
             },
-            child: isProfileLoading
+            child: _isProfileLoading
                 ? const Center(child: CircularProgressIndicator())
                 : Padding(
                     padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
@@ -176,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Hey ${profile.name.split(' ').first},",
+                                              "Hey ${_profile.name.split(' ').first},",
                                               style: const TextStyle(
                                                 color: AppColors.textWhite,
                                                 fontWeight: FontWeight.bold,
@@ -300,5 +251,24 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Profile? getProfile(String id) {
+    try {
+      return _profiles.firstWhere((profile) => profile.id == id);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Map<String, int> getVoteCount() {
+    Map<String, int> pollVoteCounts = {};
+
+    for (Poll poll in _polls) {
+      int voteCount = _votes.where((vote) => vote.poll == poll.id).length;
+      pollVoteCounts[poll.id] = voteCount;
+    }
+
+    return pollVoteCounts;
   }
 }

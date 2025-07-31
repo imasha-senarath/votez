@@ -1,5 +1,3 @@
-
-/// This class contains all the App Text in String formats.
 class AppStrings {
 
   // -- GLOBAL Texts
@@ -64,7 +62,5 @@ class AppStrings {
   // -- Home
   static const String homeAppbarTitle = "Good day for shopping";
   static const String homeAppbarSubTitle = "Taimoor Sikander";
-
-
 }
 

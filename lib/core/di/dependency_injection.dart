@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:votez/domain/usecases/get_polls_usecase.dart';
 import 'package:votez/domain/usecases/get_profiles_usecase.dart';
 
 import '../../data/datasources/firebase_service.dart';
@@ -11,26 +12,26 @@ import '../../presentation/blocs/login/login_bloc.dart';
 final injection = GetIt.instance;
 
 Future<void> init() async {
-
   injection.registerLazySingleton(() => FirebaseService());
 
-  injection.registerLazySingleton<Repository>(() =>
-      RepositoryImpl(firebase: injection()),
+  injection.registerLazySingleton<Repository>(
+    () => RepositoryImpl(firebase: injection()),
   );
 
-  injection.registerLazySingleton(() =>
-      LoginUseCase(injection())
+  injection.registerLazySingleton(() => LoginUseCase(injection()));
+
+  injection.registerFactory(
+    () => LoginBloc(loginUseCase: injection()),
   );
 
-  injection.registerFactory(() =>
-      LoginBloc(loginUseCase: injection()),
-  );
+  injection.registerLazySingleton(() => GetProfilesUseCase(injection()));
 
-  injection.registerLazySingleton(() =>
-      GetProfilesUseCase(injection())
-  );
+  injection.registerLazySingleton(() => GetPollsUseCase(injection()));
 
-  injection.registerFactory(() =>
-      HomeBloc(getProfilesUseCase: injection()),
+  injection.registerFactory(
+    () => HomeBloc(
+      getProfilesUseCase: injection(),
+      getPollsUseCase: injection(),
+    ),
   );
 }
