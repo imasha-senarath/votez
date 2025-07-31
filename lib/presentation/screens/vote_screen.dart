@@ -7,7 +7,7 @@ import '../../models/poll.dart';
 import '../../models/profile.dart';
 import '../../models/vote.dart';
 import '../../data/datasources/firebase_service.dart';
-import '../../utils/DateUtils.dart';
+import '../../utils/date_utils.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/sizes.dart';

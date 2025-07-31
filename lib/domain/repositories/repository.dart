@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:votez/data/models/UserModel.dart';
+import 'package:votez/data/models/user_model.dart';
 
 import '../../core/error/failure.dart';
 import '../../models/poll.dart';

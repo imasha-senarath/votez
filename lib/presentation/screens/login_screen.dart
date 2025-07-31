@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:votez/core/constants/strings.dart';
 import 'package:votez/core/di/dependency_injection.dart';
 import 'package:votez/presentation/blocs/login/login_event.dart';
 import 'package:votez/presentation/blocs/login/login_state.dart';
@@ -86,11 +87,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 10,
                     ),
                     Text(
-                      "Welcome back!",
+                      AppStrings.welcome,
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     Text(
-                      "Vote Anytime, Anywhere Online",
+                      AppStrings.headline,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(

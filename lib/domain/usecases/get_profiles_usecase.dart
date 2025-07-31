@@ -2,7 +2,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../core/error/failure.dart';
-import '../../data/models/UserModel.dart';
+import '../../data/models/user_model.dart';
 import '../../models/profile.dart';
 import '../entities/User.dart';
 import '../repositories/repository.dart';

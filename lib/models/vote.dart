@@ -1,4 +1,4 @@
-import '../utils/DateUtils.dart';
+import '../utils/date_utils.dart';
 
 class Vote {
   final String id;

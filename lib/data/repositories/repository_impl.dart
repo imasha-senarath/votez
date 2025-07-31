@@ -3,11 +3,11 @@ import 'package:dartz/dartz.dart';
 import 'package:votez/core/error/failure.dart';
 import 'package:votez/models/poll.dart';
 import 'package:votez/models/profile.dart';
-import 'package:votez/utils/app_constants.dart';
+import 'package:votez/core/constants/app_constants.dart';
 
 import '../../domain/repositories/repository.dart';
 import '../datasources/firebase_service.dart';
-import '../models/UserModel.dart';
+import '../models/user_model.dart';
 
 class RepositoryImpl implements Repository {
 
