@@ -15,4 +15,6 @@ abstract class Repository {
   Future<Either<Failure, List<Poll>>> getPolls();
 
   Future<Either<Failure, List<Vote>>> getVotes();
+
+  Future<Either<Failure, bool>> signOut();
 }

@@ -148,4 +148,14 @@ class FirebaseService {
       rethrow;
     }
   }
+
+  Future<bool> signOut() async {
+    try {
+      await _auth.signOut();
+      return true;
+    } catch (e) {
+      print("Error signing out: $e");
+      rethrow;
+    }
+  }
 }

@@ -51,10 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _bloc.add(GetProfilesEvent());
   }
 
-  void signOut() {
-    FirebaseAuth.instance.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

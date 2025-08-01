@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:votez/domain/usecases/get_polls_usecase.dart';
 import 'package:votez/domain/usecases/get_profiles_usecase.dart';
 import 'package:votez/domain/usecases/get_votes_usecase.dart';
+import 'package:votez/domain/usecases/sign_out_usecase.dart';
 
 import '../../data/datasources/firebase_service.dart';
 import '../../data/repositories/repository_impl.dart';
@@ -31,11 +32,14 @@ Future<void> init() async {
 
   injection.registerLazySingleton(() => GetVotesUseCase(injection()));
 
+  injection.registerLazySingleton(() => SignOutUseCase(injection()));
+
   injection.registerFactory(
     () => HomeBloc(
       getProfilesUseCase: injection(),
       getPollsUseCase: injection(),
       getVotesUseCase: injection(),
+      signOutUseCase: injection(),
     ),
   );
 }

@@ -45,3 +45,15 @@ class GetVotesFailedState extends HomeState {
 
   GetVotesFailedState({required this.error});
 }
+
+class SignOutSuccessState extends HomeState {
+  final bool result;
+
+  SignOutSuccessState({required this.result});
+}
+
+class SignOutFailedState extends HomeState {
+  final String error;
+
+  SignOutFailedState({required this.error});
+}
