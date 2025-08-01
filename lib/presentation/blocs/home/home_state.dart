@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../models/poll.dart';
 import '../../../models/profile.dart';
+import '../../../models/vote.dart';
 
 abstract class HomeState extends Equatable {
   @override
@@ -31,4 +32,16 @@ class GetPollsFailedState extends HomeState {
   final String error;
 
   GetPollsFailedState({required this.error});
+}
+
+class GetVotesSuccessState extends HomeState {
+  final List<Vote> votes;
+
+  GetVotesSuccessState({required this.votes});
+}
+
+class GetVotesFailedState extends HomeState {
+  final String error;
+
+  GetVotesFailedState({required this.error});
 }

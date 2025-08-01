@@ -4,6 +4,7 @@ import 'package:votez/core/error/failure.dart';
 import 'package:votez/models/poll.dart';
 import 'package:votez/models/profile.dart';
 import 'package:votez/core/constants/app_constants.dart';
+import 'package:votez/models/vote.dart';
 
 import '../../domain/repositories/repository.dart';
 import '../datasources/firebase_service.dart';
@@ -42,6 +43,17 @@ class RepositoryImpl implements Repository {
       final List<Map<String, dynamic>> fetchedData = await firebase.getData(AppConstants.pollCollection);
       final List<Poll> polls = fetchedData.map((data) => Poll.fromMap(data)).toList();
       return Right(polls);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Vote>>> getVotes() async {
+    try {
+      final List<Map<String, dynamic>> fetchedData = await firebase.getData(AppConstants.voteCollection);
+      final List<Vote> votes = fetchedData.map((data) => Vote.fromMap(data)).toList();
+      return Right(votes);
     } on Exception catch (e) {
       return Left(ServerFailure(e.toString()));
     }

@@ -31,7 +31,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late final HomeBloc _bloc = injection<HomeBloc>();
 
-  final FirebaseService _firebase = FirebaseService();
   late String userId;
 
   final List<String> _categories = ["Food", "Technology", "Fashion", "Science", "Sports", "Life"];
@@ -49,23 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     userId = FirebaseService.getUserId()!;
-
     _bloc.add(GetProfilesEvent());
-  }
-
-  Future<void> _fetchVotes() async {
-    try {
-      List<Map<String, dynamic>> fetchedData = await _firebase.getData('Votes');
-      setState(() {
-        _votes = fetchedData.map((data) => Vote.fromMap(data)).toList();
-        _isFetchingData = false;
-      });
-    } catch (e) {
-      print('Error: $e');
-      setState(() {
-        _isFetchingData = false;
-      });
-    }
   }
 
   void signOut() {
@@ -88,17 +71,27 @@ class _HomeScreenState extends State<HomeScreen> {
           child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               if (state is GetProfilesSuccessState) {
-                _profiles = state.profiles;
-                _profile = getProfile(userId)!;
-                _isProfileLoading = false;
-                _bloc.add(GetPollsEvent());
+                setState(() {
+                  _profiles = state.profiles;
+                  _profile = getProfile(userId)!;
+                  _isProfileLoading = false;
+                  _bloc.add(GetPollsEvent());
+                });
               } else if (state is GetProfilesFailedState) {
                 AppDialog.showErrorDialog(context: context, message: state.error);
               }
               if (state is GetPollsSuccessState) {
                 _polls = state.polls;
-                _fetchVotes();
+                _bloc.add(GetVotesEvent());
               } else if (state is GetPollsFailedState) {
+                AppDialog.showErrorDialog(context: context, message: state.error);
+              }
+              if (state is GetVotesSuccessState) {
+                setState(() {
+                  _votes = state.votes;
+                  _isFetchingData = false;
+                });
+              } else if (state is GetVotesFailedState) {
                 AppDialog.showErrorDialog(context: context, message: state.error);
               }
             },

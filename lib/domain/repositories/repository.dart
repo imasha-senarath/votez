@@ -4,6 +4,7 @@ import 'package:votez/data/models/user_model.dart';
 import '../../core/error/failure.dart';
 import '../../models/poll.dart';
 import '../../models/profile.dart';
+import '../../models/vote.dart';
 
 abstract class Repository {
 
@@ -12,4 +13,6 @@ abstract class Repository {
   Future<Either<Failure, List<Profile>>> getProfiles();
 
   Future<Either<Failure, List<Poll>>> getPolls();
+
+  Future<Either<Failure, List<Vote>>> getVotes();
 }

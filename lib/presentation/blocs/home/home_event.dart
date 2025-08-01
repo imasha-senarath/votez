@@ -8,3 +8,5 @@ abstract class HomeEvent extends Equatable {
 class GetProfilesEvent extends HomeEvent {}
 
 class GetPollsEvent extends HomeEvent {}
+
+class GetVotesEvent extends HomeEvent {}
