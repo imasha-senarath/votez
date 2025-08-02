@@ -49,7 +49,6 @@ Future<void> init() async {
       getProfilesUseCase: injection(),
       getPollsUseCase: injection(),
       getVotesUseCase: injection(),
-      signOutUseCase: injection(),
     ),
   );
 

@@ -11,18 +11,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetProfilesUseCase getProfilesUseCase;
   final GetPollsUseCase getPollsUseCase;
   final GetVotesUseCase getVotesUseCase;
-  final SignOutUseCase signOutUseCase;
 
   HomeBloc({
     required this.getProfilesUseCase,
     required this.getPollsUseCase,
     required this.getVotesUseCase,
-    required this.signOutUseCase,
   }) : super(HomeStateInitial()) {
     on<GetProfilesEvent>(_getProfiles);
     on<GetPollsEvent>(_getPolls);
     on<GetVotesEvent>(_getVotes);
-    on<SignOutEvent>(_signOut);
   }
 
   Future<void> _getProfiles(GetProfilesEvent event, Emitter<HomeState> emit) async {
@@ -49,15 +46,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     result.fold(
           (failure) => emit(GetVotesFailedState(error: failure.message)),
           (votesList) => emit(GetVotesSuccessState(votes: votesList)),
-    );
-  }
-
-  Future<void> _signOut(SignOutEvent event, Emitter<HomeState> emit) async {
-    final result = await signOutUseCase();
-
-    result.fold(
-          (failure) => emit(SignOutFailedState(error: failure.message)),
-          (isSignedOut) => emit(SignOutSuccessState(result: isSignedOut)),
     );
   }
 }
