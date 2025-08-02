@@ -70,6 +70,17 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, Profile>> getUser(String userId) async  {
+    try {
+      final Map<String, dynamic>? fetchedData = await firebase.getSingleData(AppConstants.userCollection, userId);
+      final Profile profile = Profile.fromMap(fetchedData!);
+      return Right(profile);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, bool>> signOut() async {
     try {
       final result = await firebase.signOut();

@@ -18,5 +18,7 @@ abstract class Repository {
 
   Future<Either<Failure, List<Vote>>> getVotes();
 
+  Future<Either<Failure, Profile>> getUser(String userId);
+
   Future<Either<Failure, bool>> signOut();
 }

@@ -1,9 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:votez/domain/usecases/get_polls_usecase.dart';
 import 'package:votez/domain/usecases/get_profiles_usecase.dart';
+import 'package:votez/domain/usecases/get_user_usecase.dart';
 import 'package:votez/domain/usecases/get_votes_usecase.dart';
 import 'package:votez/domain/usecases/register_usecase.dart';
 import 'package:votez/domain/usecases/sign_out_usecase.dart';
+import 'package:votez/presentation/blocs/profile/profile_bloc.dart';
 import 'package:votez/presentation/blocs/register/register_bloc.dart';
 
 import '../../data/datasources/firebase_service.dart';
@@ -24,10 +26,6 @@ Future<void> init() async {
 
   injection.registerLazySingleton(() => LoginUseCase(injection()));
 
-  injection.registerFactory(
-    () => LoginBloc(loginUseCase: injection()),
-  );
-
   injection.registerLazySingleton(() => GetProfilesUseCase(injection()));
 
   injection.registerLazySingleton(() => GetPollsUseCase(injection()));
@@ -35,6 +33,16 @@ Future<void> init() async {
   injection.registerLazySingleton(() => GetVotesUseCase(injection()));
 
   injection.registerLazySingleton(() => SignOutUseCase(injection()));
+
+  injection.registerLazySingleton(() => RegisterUseCase(injection()));
+
+  injection.registerLazySingleton(() => GetUserUseCase(injection()));
+
+  injection.registerFactory(
+    () => LoginBloc(
+      loginUseCase: injection(),
+    ),
+  );
 
   injection.registerFactory(
     () => HomeBloc(
@@ -45,9 +53,16 @@ Future<void> init() async {
     ),
   );
 
-  injection.registerLazySingleton(() => RegisterUseCase(injection()));
+  injection.registerFactory(
+    () => RegisterBloc(
+      registerUseCase: injection(),
+    ),
+  );
 
   injection.registerFactory(
-        () => RegisterBloc(registerUseCase: injection()),
+    () => ProfileBloc(
+      getUserUseCase: injection(),
+      signOutUseCase: injection(),
+    ),
   );
 }

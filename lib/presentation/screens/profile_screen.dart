@@ -3,10 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:votez/core/widgets/appbar.dart';
+import 'package:votez/presentation/blocs/profile/profile_bloc.dart';
+import 'package:votez/presentation/blocs/profile/profile_state.dart';
 import 'package:votez/presentation/screens/login_screen.dart';
 
+import '../../core/di/dependency_injection.dart';
+import '../../core/navigation/app_router..dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/setting_card.dart';
 import '../../data/datasources/auth.dart';
@@ -14,6 +19,8 @@ import '../../data/datasources/firebase_service.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/sizes.dart';
+import '../../models/profile.dart';
+import '../blocs/profile/profile_event.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -23,12 +30,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final FirebaseService _firebase = FirebaseService();
+  late final ProfileBloc _bloc = injection<ProfileBloc>();
+
   late String userId;
   String appVersion = "";
 
   bool isLoading = true;
-  late Map<String, dynamic>? profileData;
+  late Profile _profile;
 
   @override
   void initState() {
@@ -41,34 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
     });
 
     userId = FirebaseService.getUserId()!;
-    _fetchProfile(userId);
-  }
-
-  Future<void> _fetchProfile(String id) async {
-    try {
-      Map<String, dynamic>? fetchedData = await _firebase.getSingleData('Users', id);
-      setState(() {
-        isLoading = false;
-        profileData = fetchedData;
-      });
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-        print('Error: $e');
-      });
-    }
-  }
-
-  Future<void> logout(BuildContext context) async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
-    } catch (e) {
-      print('Error logging out: $e');
-    }
+    _bloc.add(GeUserEvent(userId: userId));
   }
 
   @override
@@ -76,123 +57,140 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: AppColors.primaryBackground,
       body: SafeArea(
-        child: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.white, // Background color
-                        borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(18),
-                        child: Row(
-                          children: [
-                            const Image(
-                              image: AssetImage(AppAssets.user),
-                              width: 60,
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+        child: BlocProvider(
+          create: (_) => _bloc,
+          child: BlocListener<ProfileBloc, ProfileState>(
+            listener: (context, state) {
+              if (state is GetUserSuccessState) {
+                setState(() {
+                  isLoading = false;
+                  _profile = state.profile;
+                });
+              } else if (state is GetUserFailedState) {
+                AppDialog.showErrorDialog(context: context, message: state.error);
+              }
+              if (state is SignOutSuccessState) {
+                Navigator.of(context).pushReplacementNamed(AppRouter.kLoginScreen);
+              } else if (state is SignOutFailedState) {
+                AppDialog.showErrorDialog(context: context, message: state.error);
+              }
+            },
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.white, // Background color
+                            borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(18),
+                            child: Row(
                               children: [
-                                Text(
-                                  profileData != null && profileData!["name"] != null ? profileData!["name"] : "--",
-                                  style: const TextStyle(
-                                    color: AppColors.textPrimary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22,
-                                  ),
+                                const Image(
+                                  image: AssetImage(AppAssets.user),
+                                  width: 60,
                                 ),
-                                Text(
-                                  profileData != null && profileData!["email"] != null ? profileData!["email"] : "--",
-                                  style: const TextStyle(
-                                    color: AppColors.textPrimary,
-                                    fontSize: 16,
-                                  ),
-                                )
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _profile.name,
+                                      style: const TextStyle(
+                                        color: AppColors.textPrimary,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                    Text(
+                                      _profile.email,
+                                      style: const TextStyle(
+                                        color: AppColors.textPrimary,
+                                        fontSize: 16,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
+                          ),
+                        ), // Profile
+                        const SizedBox(height: 15),
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.white, // Background color
+                            borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                          ),
+                          child: Column(
+                            children: [
+                              SettingCard(
+                                title: 'Language',
+                                icon: Icons.language,
+                                onTap: () {
+                                  AppDialog.showToast(context: context, message: "Language.");
+                                },
+                              ),
+                              SettingCard(
+                                title: 'Theme',
+                                icon: Icons.color_lens,
+                                onTap: () {
+                                  AppDialog.showToast(context: context, message: "Theme.");
+                                },
+                              ),
+                              const SizedBox(height: 5),
+                            ],
+                          ),
                         ),
-                      ),
-                    ), // Profile
-                    const SizedBox(height: 15),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.white, // Background color
-                        borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-                      ),
-                      child: Column(
-                        children: [
-                          SettingCard(
-                            title: 'Language',
-                            icon: Icons.language,
-                            onTap: () {
-                              AppDialog.showToast(context: context, message: "Language.");
-                            },
+                        const SizedBox(height: 10),
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.white, // Background color
+                            borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                           ),
-                          SettingCard(
-                            title: 'Theme',
-                            icon: Icons.color_lens,
-                            onTap: () {
-                              AppDialog.showToast(context: context, message: "Theme.");
-                            },
+                          child: Column(
+                            children: [
+                              SettingCard(
+                                title: 'Logout',
+                                icon: Icons.notifications,
+                                onTap: () {
+                                  AppDialog.showConfirmDialog(
+                                      context: context,
+                                      title: "Logout",
+                                      message: "Are you sure you want to log out?",
+                                      onConfirm: () {
+                                        _bloc.add(SignOutEvent());
+                                      },
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 5),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Spacer(),
+                        Text(
+                          "Version $appVersion",
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: Colors.black38,
+                              ),
+                        ),
+                        Text(
+                          "from Imasha Senarath",
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: Colors.black38,
+                              ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.white, // Background color
-                        borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-                      ),
-                      child: Column(
-                        children: [
-                          SettingCard(
-                            title: 'Logout',
-                            icon: Icons.notifications,
-                            onTap: () {
-                              AppDialog.showConfirmDialog(
-                                  context: context,
-                                  title: "Logout",
-                                  message: "Are you sure you want to log out?",
-                                  onConfirm: () {
-                                    FirebaseAuth.instance.signOut();
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => const AuthPage()),
-                                    );
-                                  });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Spacer(),
-                    Text(
-                      "Version $appVersion",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.black38,
-                      ),
-                    ),
-                    Text(
-                      "from Imasha Senarath",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.black38,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+          ),
+        ),
       ),
     );
   }
