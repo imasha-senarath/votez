@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:votez/presentation/screens/splash_screen.dart';
 import 'package:votez/core/constants/colors.dart';
 
 import '../core/di/dependency_injection.dart' as di;

@@ -8,6 +8,8 @@ import '../../models/vote.dart';
 
 abstract class Repository {
 
+  Future<Either<Failure, UserModel>> register(UserModel userModel);
+
   Future<Either<Failure, UserModel>> login(UserModel userModel);
 
   Future<Either<Failure, List<Profile>>> getProfiles();

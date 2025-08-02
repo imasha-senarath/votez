@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:votez/core/constants/app_constants.dart';
 import 'package:votez/data/models/user_model.dart';
 
 class FirebaseService {
@@ -11,31 +12,30 @@ class FirebaseService {
   }
 
   // Register User
-  Future<String?> registerUser(String email, String password, String name) async {
+  Future<UserModel?> registerUser(UserModel userModel) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: userModel.email!,
+        password: userModel.password!,
       );
 
       User? user = userCredential.user;
 
       if (user != null) {
-        await _firestore.collection('Users').doc(user.uid).set({
-          'name': name,
-          'email': email,
+        await _firestore.collection(AppConstants.userCollection).doc(user.uid).set({
+          'name': userModel.name!,
+          'email': userModel.email!,
           'createdAt': FieldValue.serverTimestamp(),
         });
 
-        return null;
+        return UserModel.fromFirebaseUser(user);
+      } else {
+        throw Exception("User registration failed");
       }
-
-    } on FirebaseAuthException catch (e) {
-      return e.toString();
     } catch (e) {
-      return "An unknown error. Please try again.";
+      print("Error registering user: $e");
+      rethrow;
     }
-    return null;
   }
 
   // Login User

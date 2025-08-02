@@ -17,6 +17,16 @@ class RepositoryImpl implements Repository {
   RepositoryImpl({required this.firebase});
 
   @override
+  Future<Either<Failure, UserModel>> register(UserModel userModel) async {
+    try {
+      final user = await firebase.registerUser(userModel);
+      return Right(user!);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, UserModel>> login(UserModel userModel) async {
     try {
       final user = await firebase.loginUser(userModel);
