@@ -46,12 +46,12 @@ class FirebaseService {
         password: userModel.password!,
       );
 
-      User? firebaseUser = userCredential.user;
+      User? user = userCredential.user;
 
-      if (firebaseUser != null) {
-        return UserModel.fromFirebaseUser(firebaseUser);
+      if (user != null) {
+        return UserModel.fromFirebaseUser(user);
       } else {
-        return null;
+        throw Exception("User login failed");
       }
     } catch (e) {
       print("Error logging in: $e");

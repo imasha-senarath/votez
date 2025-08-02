@@ -39,23 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );*/
   }
 
-  void validation() {
-    var email = emailTextController.text;
-    var password = passwordTextController.text;
-
-    if (email.isEmpty || password.isEmpty) {
-      AppDialog.showToast(context: context, message: "Field's can't be empty.");
-    } else {
-      AppDialog.showLoading(context: context);
-      _bloc.add(
-        LoginPressed(
-          email: email,
-          password: password,
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
           create: (_) => _bloc,
           child: BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
-              if (state is LoginSuccess) {
+              if (state is UserLoginSuccessState) {
                 AppDialog.hideDialog(context);
-              } else if (state is LoginFailure) {
+              } else if (state is UserLoginFailedState) {
                 AppDialog.hideDialog(context);
                 AppDialog.showErrorDialog(context: context, message: state.error);
               }
@@ -149,5 +132,22 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void validation() {
+    var email = emailTextController.text;
+    var password = passwordTextController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      AppDialog.showToast(context: context, message: "Field's can't be empty.");
+    } else {
+      AppDialog.showLoading(context: context);
+      _bloc.add(
+        UserLoginEvent(
+          email: email,
+          password: password,
+        ),
+      );
+    }
   }
 }

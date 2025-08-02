@@ -9,19 +9,19 @@ import 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUseCase loginUseCase;
 
-  LoginBloc({required this.loginUseCase}) : super(LoginInitial()) {
-    on<LoginPressed>(_onLoginPressed);
+  LoginBloc({required this.loginUseCase}) : super(UserLoginInitialState()) {
+    on<UserLoginEvent>(_onLoginPressed);
   }
 
-  Future<void> _onLoginPressed(LoginPressed event, Emitter<LoginState> emit) async {
+  Future<void> _onLoginPressed(UserLoginEvent event, Emitter<LoginState> emit) async {
     final result = await loginUseCase(UserModel(
       email: event.email,
       password: event.password,
     ));
 
     result.fold(
-          (failure) => emit(LoginFailure(error: failure.message)),
-          (user) => emit(LoginSuccess()),
+          (failure) => emit(UserLoginFailedState(error: failure.message)),
+          (user) => emit(UserLoginSuccessState()),
     );
   }
 }
