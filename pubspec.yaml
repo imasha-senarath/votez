@@ -46,6 +46,7 @@ dependencies:
   equatable: ^2.0.5
   dartz: ^0.10.1
   get_it: ^7.2.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,12 @@ flutter:
           weight: 600
         - asset: assets/fonts/Poppins-Bold.ttf
           weight: 800
+
+# Change app icon - flutter pub run flutter_launcher_icons:main
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
