@@ -5,6 +5,7 @@ import 'package:votez/presentation/blocs/register/register_event.dart';
 import 'package:votez/presentation/blocs/register/register_state.dart';
 
 import '../../core/di/dependency_injection.dart';
+import '../../core/navigation/app_router..dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/app_button.dart';
 import '../../core/widgets/text_field.dart';
@@ -39,6 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             listener: (context, state) {
               if (state is UserRegisterSuccessState) {
                 AppDialog.hideDialog(context);
+                Navigator.of(context).pushReplacementNamed(AppRouter.kMainScreen);
               } else if (state is UserRegisterFailedState) {
                 AppDialog.hideDialog(context);
                 AppDialog.showErrorDialog(context: context, message: state.error);

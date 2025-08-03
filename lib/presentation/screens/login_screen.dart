@@ -49,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
             listener: (context, state) {
               if (state is UserLoginSuccessState) {
                 AppDialog.hideDialog(context);
+                Navigator.of(context).pushReplacementNamed(AppRouter.kMainScreen);
               } else if (state is UserLoginFailedState) {
                 AppDialog.hideDialog(context);
                 AppDialog.showErrorDialog(context: context, message: state.error);
