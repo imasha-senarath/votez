@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:votez/models/vote.dart';
@@ -7,7 +5,6 @@ import 'package:votez/presentation/blocs/home/home_bloc.dart';
 import 'package:votez/presentation/blocs/home/home_event.dart';
 import 'package:votez/presentation/blocs/home/home_state.dart';
 import 'package:votez/presentation/screens/vote_screen.dart';
-import 'package:votez/presentation/screens/create_poll_screen.dart';
 import 'package:votez/core/constants/colors.dart';
 
 import '../../core/di/dependency_injection.dart';

@@ -1,20 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:votez/core/widgets/appbar.dart';
 import 'package:votez/presentation/blocs/profile/profile_bloc.dart';
 import 'package:votez/presentation/blocs/profile/profile_state.dart';
-import 'package:votez/presentation/screens/login_screen.dart';
 
 import '../../core/di/dependency_injection.dart';
 import '../../core/navigation/app_router..dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/setting_card.dart';
-import '../../data/datasources/auth.dart';
 import '../../data/datasources/firebase_service.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/constants/colors.dart';

@@ -8,7 +8,6 @@ import '../../core/di/dependency_injection.dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/app_button.dart';
 import '../../core/widgets/text_field.dart';
-import '../../data/datasources/firebase_service.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/constants/sizes.dart';
 
