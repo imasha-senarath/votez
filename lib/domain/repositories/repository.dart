@@ -22,5 +22,7 @@ abstract class Repository {
 
   Future<Either<Failure, Profile>> getUser(String userId);
 
+  Future<Either<Failure, Poll>> createPoll(Poll poll);
+
   Future<Either<Failure, bool>> signOut();
 }

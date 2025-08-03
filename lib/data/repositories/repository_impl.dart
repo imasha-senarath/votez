@@ -91,6 +91,16 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, Poll>> createPoll(Poll poll) async {
+    try {
+      await firebase.addData(AppConstants.pollCollection, poll.toMap(), "");
+      return Right(poll);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, bool>> signOut() async {
     try {
       final result = await firebase.signOut();

@@ -4,7 +4,6 @@ import 'package:votez/domain/usecases/get_votes_usecase.dart';
 
 import '../../../domain/usecases/get_profiles_usecase.dart';
 import '../../../domain/usecases/get_user_id_usecase.dart';
-import '../../../domain/usecases/sign_out_usecase.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 

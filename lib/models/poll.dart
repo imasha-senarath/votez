@@ -20,7 +20,6 @@ class Poll {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'question': question,
       'options': options.join('|'),
       'user': user,

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:votez/presentation/blocs/poll/poll_bloc.dart';
+import 'package:votez/presentation/blocs/poll/poll_state.dart';
 
+import '../../core/di/dependency_injection.dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/app_button.dart';
 import '../../core/widgets/appbar.dart';
 import '../../core/widgets/button_outline.dart';
 import '../../core/widgets/text_field.dart';
 import '../../models/poll.dart';
-import '../../data/datasources/firebase_service.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/sizes.dart';
+import '../blocs/poll/poll_event.dart';
 
 class CreatePollScreen extends StatefulWidget {
   const CreatePollScreen({Key? key}) : super(key: key);
@@ -18,12 +22,136 @@ class CreatePollScreen extends StatefulWidget {
 }
 
 class _CreatePollScreenState extends State<CreatePollScreen> {
-  final FirebaseService firebase = FirebaseService();
+  late final PollBloc _bloc = injection<PollBloc>();
+
   late String? userId;
 
   final questionTextController = TextEditingController();
+
   final List<TextEditingController> _optionControllers = [];
   final List<AppTextField> _optionTextFields = [];
+
+  @override
+  void initState() {
+    _bloc.add(GeUserIdEvent());
+    _addOptions();
+    _addOptions();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.primaryBackground,
+      appBar: const CustomAppBar(
+        title: 'Create Poll',
+        enableBackButton: true,
+      ),
+      body: BlocProvider(
+        create: (_) => _bloc,
+        child: BlocListener<PollBloc, PollState>(
+          listener: (context, state) {
+            if (state is GetUserIdSuccessState) {
+              userId = state.userId;
+            } else if (state is GetUserIdFailedState) {
+              AppDialog.showErrorDialog(context: context, message: state.error);
+            }
+            if (state is CreatePollSuccessState) {
+              AppDialog.hideDialog(context);
+              AppDialog.showToast(context: context, message: "Poll uploaded.");
+              Navigator.pop(context);
+            } else if (state is CreatePollEventFailedState) {
+              AppDialog.showErrorDialog(context: context, message: state.error);
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(AppSizes.defaultSpace),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Create your poll with multiple options.",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Enter your question",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                AppTextField(
+                  textEditingController: questionTextController,
+                  labelText: "",
+                  obscureText: false,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Enter options",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                    ),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: _optionTextFields.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: _optionTextFields[index],
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppButtonOutline(
+                        onTap: _addOptions,
+                        text: "Add Option",
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: AppButton(
+                        onTap: _postPoll,
+                        text: "Post Poll",
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   void _addOptions() {
     setState(() {
@@ -46,119 +174,14 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
     if (question.isEmpty || options.any((option) => option.isEmpty)) {
       AppDialog.showToast(context: context, message: "Field's can't be empty.");
     } else {
-      final poll = Poll(id: '', question: question, options: options, user: userId!);
-      final pollMapData = poll.toMap();
-
-      try {
-        firebase.addData("Polls", pollMapData, "");
-        AppDialog.showToast(context: context, message: "Poll uploaded.");
-        Navigator.pop(context);
-      } catch (e) {
-        AppDialog.showToast(context: context, message: "Error uploading Poll. Please try again.");
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    userId = FirebaseService.getUserId();
-    _addOptions();
-    _addOptions();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
-      appBar: const CustomAppBar(
-        title: 'Create Poll',
-        enableBackButton: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppSizes.defaultSpace),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Create your poll with multiple options.",
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Enter your question",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            AppTextField(
-              textEditingController: questionTextController,
-              labelText: "",
-              obscureText: false,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Enter options",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: _optionTextFields.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            child: _optionTextFields[index],
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: AppButtonOutline(
-                    onTap: _addOptions,
-                    text: "Add Option",
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: AppButton(
-                    onTap: _postPoll,
-                    text: "Post Poll",
-                  ),
-                ),
-              ],
-            )
-          ],
+      AppDialog.showLoading(context: context);
+      _bloc.add(
+        CreatePollEvent(
+          question: question,
+          options: options,
+          user: userId!,
         ),
-      ),
-    );
+      );
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:votez/domain/usecases/create_poll_usecase.dart';
 import 'package:votez/domain/usecases/get_polls_usecase.dart';
 import 'package:votez/domain/usecases/get_profiles_usecase.dart';
 import 'package:votez/domain/usecases/get_user_id_usecase.dart';
@@ -6,6 +7,7 @@ import 'package:votez/domain/usecases/get_user_usecase.dart';
 import 'package:votez/domain/usecases/get_votes_usecase.dart';
 import 'package:votez/domain/usecases/register_usecase.dart';
 import 'package:votez/domain/usecases/sign_out_usecase.dart';
+import 'package:votez/presentation/blocs/poll/poll_bloc.dart';
 import 'package:votez/presentation/blocs/profile/profile_bloc.dart';
 import 'package:votez/presentation/blocs/register/register_bloc.dart';
 import 'package:votez/presentation/blocs/splash/splash_bloc.dart';
@@ -42,6 +44,7 @@ Future<void> init() async {
 
   injection.registerLazySingleton(() => GetUserIdUseCase(injection()));
 
+  injection.registerLazySingleton(() => CreatePollUseCase(injection()));
 
   injection.registerFactory(
     () => LoginBloc(
@@ -72,8 +75,15 @@ Future<void> init() async {
   );
 
   injection.registerFactory(
-        () => SplashBloc(
+    () => SplashBloc(
       getUserIdUseCase: injection(),
+    ),
+  );
+
+  injection.registerFactory(
+    () => PollBloc(
+      getUserIdUseCase: injection(),
+      createPollUseCase: injection(),
     ),
   );
 }
