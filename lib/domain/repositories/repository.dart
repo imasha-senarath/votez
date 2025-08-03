@@ -12,6 +12,8 @@ abstract class Repository {
 
   Future<Either<Failure, UserModel>> login(UserModel userModel);
 
+  Future<Either<Failure, String>> getUserId();
+
   Future<Either<Failure, List<Profile>>> getProfiles();
 
   Future<Either<Failure, List<Poll>>> getPolls();

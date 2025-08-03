@@ -4,11 +4,28 @@ import 'package:votez/core/constants/app_constants.dart';
 import 'package:votez/data/models/user_model.dart';
 
 class FirebaseService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   static String? getUserId() {
     return FirebaseAuth.instance.currentUser?.uid;
+  }
+
+  // get user id
+  Future<String?> getUserIdNew() async {
+    try {
+      String? userId = _auth.currentUser?.uid;
+
+      if(userId != null) {
+        return userId;
+      } else {
+        throw Exception("Authentication failed");
+      }
+
+    } catch (e) {
+      print("Error getting id: $e");
+      rethrow;
+    }
   }
 
   // Register User
@@ -149,6 +166,7 @@ class FirebaseService {
     }
   }
 
+  // sign out
   Future<bool> signOut() async {
     try {
       await _auth.signOut();

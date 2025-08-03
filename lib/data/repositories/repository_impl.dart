@@ -37,6 +37,16 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, String>> getUserId() async {
+    try {
+      final result = await firebase.getUserIdNew();
+      return Right(result!);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, List<Profile>>> getProfiles() async {
     try {
       final List<Map<String, dynamic>> fetchedData = await firebase.getData(AppConstants.userCollection);
