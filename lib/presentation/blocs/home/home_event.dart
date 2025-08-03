@@ -5,6 +5,8 @@ abstract class HomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class GeUserIdEvent extends HomeEvent {}
+
 class GetProfilesEvent extends HomeEvent {}
 
 class GetPollsEvent extends HomeEvent {}

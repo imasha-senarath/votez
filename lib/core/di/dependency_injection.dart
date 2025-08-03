@@ -51,6 +51,7 @@ Future<void> init() async {
 
   injection.registerFactory(
     () => HomeBloc(
+      getUserIdUseCase: injection(),
       getProfilesUseCase: injection(),
       getPollsUseCase: injection(),
       getVotesUseCase: injection(),

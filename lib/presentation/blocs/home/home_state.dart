@@ -10,6 +10,18 @@ abstract class HomeState extends Equatable {
 
 class HomeStateInitial extends HomeState {}
 
+class GetUserIdSuccessState extends HomeState {
+  final String userId;
+
+  GetUserIdSuccessState({required this.userId});
+}
+
+class GetUserIdFailedState extends HomeState {
+  final String error;
+
+  GetUserIdFailedState({required this.error});
+}
+
 class GetProfilesSuccessState extends HomeState {
   final List<Profile> profiles;
 

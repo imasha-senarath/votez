@@ -16,7 +16,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     on<GeUserIdEvent>(_getUserId);
   }
 
-  Future<void> _getUserId(SplashEvent event, Emitter<SplashState> emit) async {
+  Future<void> _getUserId(GeUserIdEvent event, Emitter<SplashState> emit) async {
     final result = await getUserIdUseCase();
 
     result.fold(

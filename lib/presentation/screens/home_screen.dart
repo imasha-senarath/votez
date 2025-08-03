@@ -13,7 +13,6 @@ import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/poll_card.dart';
 import '../../models/poll.dart';
 import '../../models/profile.dart';
-import '../../data/datasources/firebase_service.dart';
 import '../../utils/date_utils.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/constants/sizes.dart';
@@ -44,8 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    userId = FirebaseService.getUserId()!;
-    _bloc.add(GetProfilesEvent());
+    _bloc.add(GeUserIdEvent());
   }
 
   @override
@@ -63,6 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
           create: (_) => _bloc,
           child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
+              if (state is GetUserIdSuccessState) {
+                userId = state.userId;
+                _bloc.add(GetProfilesEvent());
+              } else if (state is GetUserIdFailedState) {
+                AppDialog.showErrorDialog(context: context, message: state.error);
+              }
               if (state is GetProfilesSuccessState) {
                 setState(() {
                   _profiles = state.profiles;

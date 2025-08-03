@@ -3,23 +3,36 @@ import 'package:votez/domain/usecases/get_polls_usecase.dart';
 import 'package:votez/domain/usecases/get_votes_usecase.dart';
 
 import '../../../domain/usecases/get_profiles_usecase.dart';
+import '../../../domain/usecases/get_user_id_usecase.dart';
 import '../../../domain/usecases/sign_out_usecase.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final GetUserIdUseCase getUserIdUseCase;
   final GetProfilesUseCase getProfilesUseCase;
   final GetPollsUseCase getPollsUseCase;
   final GetVotesUseCase getVotesUseCase;
 
   HomeBloc({
+    required this.getUserIdUseCase,
     required this.getProfilesUseCase,
     required this.getPollsUseCase,
     required this.getVotesUseCase,
   }) : super(HomeStateInitial()) {
+    on<GeUserIdEvent>(_getUserId);
     on<GetProfilesEvent>(_getProfiles);
     on<GetPollsEvent>(_getPolls);
     on<GetVotesEvent>(_getVotes);
+  }
+
+  Future<void> _getUserId(GeUserIdEvent event, Emitter<HomeState> emit) async {
+    final result = await getUserIdUseCase();
+
+    result.fold(
+          (failure) => emit(GetUserIdFailedState(error: failure.message)),
+          (id) => emit(GetUserIdSuccessState(userId: id)),
+    );
   }
 
   Future<void> _getProfiles(GetProfilesEvent event, Emitter<HomeState> emit) async {
