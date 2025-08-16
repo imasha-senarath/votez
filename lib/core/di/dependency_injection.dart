@@ -11,11 +11,14 @@ import 'package:votez/presentation/blocs/poll/poll_bloc.dart';
 import 'package:votez/presentation/blocs/profile/profile_bloc.dart';
 import 'package:votez/presentation/blocs/register/register_bloc.dart';
 import 'package:votez/presentation/blocs/splash/splash_bloc.dart';
+import 'package:votez/presentation/blocs/vote/vote_bloc.dart';
 
 import '../../data/datasources/firebase_service.dart';
 import '../../data/repositories/repository_impl.dart';
 import '../../domain/repositories/repository.dart';
+import '../../domain/usecases/get_poll_votes_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
+import '../../domain/usecases/user_vote_usecase.dart';
 import '../../presentation/blocs/home/home_bloc.dart';
 import '../../presentation/blocs/login/login_bloc.dart';
 
@@ -45,6 +48,10 @@ Future<void> init() async {
   injection.registerLazySingleton(() => GetUserIdUseCase(injection()));
 
   injection.registerLazySingleton(() => CreatePollUseCase(injection()));
+
+  injection.registerLazySingleton(() => UserVoteUseCase(injection()));
+
+  injection.registerLazySingleton(() => GetPollVotesUseCase(injection()));
 
   injection.registerFactory(
     () => LoginBloc(
@@ -85,6 +92,14 @@ Future<void> init() async {
     () => PollBloc(
       getUserIdUseCase: injection(),
       createPollUseCase: injection(),
+    ),
+  );
+
+  injection.registerFactory(
+    () => VoteBloc(
+      getUserIdUseCase: injection(),
+      getPollVotesUseCase: injection(),
+      userVoteUseCase: injection(),
     ),
   );
 }

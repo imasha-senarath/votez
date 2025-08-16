@@ -80,6 +80,17 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, List<Vote>>> getPollVotes(String pollId) async {
+    try {
+      List<Map<String, dynamic>> fetchedData = await firebase.getFilteredData(AppConstants.voteCollection, 'poll', pollId);
+      final List<Vote> votes = fetchedData.map((data) => Vote.fromMap(data)).toList();
+      return Right(votes);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, Profile>> getUser(String userId) async  {
     try {
       final Map<String, dynamic>? fetchedData = await firebase.getSingleData(AppConstants.userCollection, userId);
@@ -95,6 +106,16 @@ class RepositoryImpl implements Repository {
     try {
       await firebase.addData(AppConstants.pollCollection, poll.toMap(), "");
       return Right(poll);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Vote>> createVote(Vote vote) async {
+    try {
+      await firebase.addData(AppConstants.voteCollection, vote.toMap(), "");
+      return Right(vote);
     } on Exception catch (e) {
       return Left(ServerFailure(e.toString()));
     }

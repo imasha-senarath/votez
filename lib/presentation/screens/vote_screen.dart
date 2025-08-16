@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:votez/presentation/blocs/vote/vote_state.dart';
 
+import '../../core/di/dependency_injection.dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/appbar.dart';
 import '../../core/widgets/poll_item.dart';
 import '../../models/poll.dart';
 import '../../models/profile.dart';
 import '../../models/vote.dart';
-import '../../data/datasources/firebase_service.dart';
-import '../../utils/date_utils.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/sizes.dart';
+import '../blocs/vote/vote_bloc.dart';
+import '../blocs/vote/vote_event.dart';
 
 class VotePage extends StatefulWidget {
   final Poll poll;
@@ -27,8 +30,9 @@ class VotePage extends StatefulWidget {
 }
 
 class _VotePageState extends State<VotePage> {
-  final FirebaseService _firebase = FirebaseService();
-  late String? userId = FirebaseService.getUserId();
+  late final VoteBloc _bloc = injection<VoteBloc>();
+
+  late String? userId;
 
   List<Vote> _votes = [];
   int _totalVotes = 0;
@@ -41,22 +45,140 @@ class _VotePageState extends State<VotePage> {
   @override
   void initState() {
     super.initState();
-    _fetchVotes();
+    _bloc.add(GeUserIdEvent());
   }
 
-  Future<void> _fetchVotes() async {
-    try {
-      List<Map<String, dynamic>> fetchedData = await _firebase.getFilteredData('Votes', 'poll', widget.poll.id);
-      setState(() {
-        _votes = fetchedData.map((data) => Vote.fromMap(data)).toList();
-        analysePoll();
-      });
-    } catch (e) {
-      print('Error: $e');
-      setState(() {
-        _isFetchingData = false;
-      });
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.primaryBackground,
+      appBar: const CustomAppBar(
+        title: "Vote",
+        enableBackButton: true,
+      ),
+      body: BlocProvider(
+        create: (_) => _bloc,
+        child: BlocListener<VoteBloc, VoteState>(
+          listener: (context, state) {
+            if (state is GetUserIdSuccessState) {
+              userId = state.userId;
+              _bloc.add(GetPollVotesEvent(pollId: widget.poll.id));
+            } else if (state is GetUserIdFailedState) {
+              AppDialog.showErrorDialog(context: context, message: state.error);
+            }
+            if (state is GetPollVotesSuccessState) {
+              setState(() {
+                _votes = state.votes;
+                analysePoll();
+              });
+            } else if (state is GetPollVotesFailedState) {
+              AppDialog.showErrorDialog(context: context, message: state.error);
+            }
+            if (state is UserVoteSuccessState) {
+              AppDialog.showToast(context: context, message: "Voted");
+              setState(() {
+                //_votedOption = option;
+                _bloc.add(GetPollVotesEvent(pollId: widget.poll.id));
+              });
+            } else if (state is UserVoteFailedState) {
+              AppDialog.showErrorDialog(context: context, message: state.error);
+            }
+          },
+          child: _isFetchingData
+              ? const Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding: const EdgeInsets.all(AppSizes.defaultSpace),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Image(
+                            image: AssetImage(AppAssets.user),
+                            width: 25,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            widget.profile.name,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        widget.poll.question,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ListView.builder(
+                        itemCount: widget.poll.options.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final option = widget.poll.options[index];
+                          return Padding(
+                              padding: EdgeInsets.only(bottom: index == widget.poll.options.length - 1 ? 0 : 5.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if( _votedOption == -1) {
+                                    _bloc.add(
+                                      UserVoteEvent(
+                                        poll: widget.poll.id,
+                                        option: index,
+                                        user: userId!,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: PollItem(
+                                  option: option,
+                                  votedOption: _votedOption,
+                                  index: index,
+                                  votePercentages: _votePercentages,
+                                ),
+                              ));
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Icon(
+                            Icons.thumb_up_alt_outlined,
+                            size: 20,
+                            color: AppColors.textPrimary,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            "$_totalVotes Voters",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          const Spacer(),
+                          Text(
+                            "${widget.poll.time} • ${widget.poll.date}",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+        ),
+      ),
+    );
   }
 
   void analysePoll() {
@@ -73,7 +195,7 @@ class _VotePageState extends State<VotePage> {
 
   int getVotedOption(String pollId, String userId) {
     final vote = _votes.firstWhere(
-      (vote) => vote.poll == pollId && vote.user == userId,
+          (vote) => vote.poll == pollId && vote.user == userId,
       orElse: () => Vote(id: '', poll: '', option: -1, user: '', date: '', time: ''),
     );
 
@@ -94,121 +216,5 @@ class _VotePageState extends State<VotePage> {
     });
 
     return votePercentages;
-  }
-
-  Future<void> _vote(int option) async {
-    Map<String, dynamic> voteData = {
-      "poll": widget.poll.id,
-      "option": option,
-      "user": userId,
-      "time": DateUtil.getCurrentTime(),
-      "date": DateUtil.getCurrentDate(),
-    };
-
-    try {
-      await _firebase.addData("Votes", voteData, null);
-      AppDialog.showToast(context: context, message: "Voted");
-      setState(() {
-        _votedOption = option;
-        _fetchVotes();
-      });
-    } catch (e) {
-      AppDialog.showErrorDialog(context: context, message: "Failed to add data: $e");
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
-      appBar: const CustomAppBar(
-        title: "Vote",
-        enableBackButton: true,
-      ),
-      body: _isFetchingData
-          ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(AppSizes.defaultSpace),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Image(
-                        image: AssetImage(AppAssets.user),
-                        width: 25,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        widget.profile.name,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    widget.poll.question,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ListView.builder(
-                    itemCount: widget.poll.options.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final option = widget.poll.options[index];
-                      return Padding(
-                          padding: EdgeInsets.only(bottom: index == widget.poll.options.length - 1 ? 0 : 5.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              _votedOption == -1 ? _vote(index) : null;
-                            },
-                            child: PollItem(
-                              option: option,
-                              votedOption: _votedOption,
-                              index: index,
-                              votePercentages: _votePercentages,
-                            ),
-                          ));
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Icon(
-                        Icons.thumb_up_alt_outlined,
-                        size: 20,
-                        color: AppColors.textPrimary,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        "$_totalVotes Voters",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      const Spacer(),
-                      Text(
-                        "${widget.poll.time} • ${widget.poll.date}",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-    );
   }
 }
