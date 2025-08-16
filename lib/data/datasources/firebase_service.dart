@@ -7,12 +7,8 @@ class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  static String? getUserId() {
-    return FirebaseAuth.instance.currentUser?.uid;
-  }
-
   // get user id
-  Future<String?> getUserIdNew() async {
+  Future<String?> getUserId() async {
     try {
       String? userId = _auth.currentUser?.uid;
 

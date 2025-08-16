@@ -39,7 +39,7 @@ class RepositoryImpl implements Repository {
   @override
   Future<Either<Failure, String>> getUserId() async {
     try {
-      final result = await firebase.getUserIdNew();
+      final result = await firebase.getUserId();
       return Right(result!);
     } on Exception catch (e) {
       return Left(ServerFailure(e.toString()));
