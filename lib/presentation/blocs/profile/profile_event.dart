@@ -5,6 +5,8 @@ abstract class ProfileEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class GeUserIdEvent extends ProfileEvent {}
+
 class GeUserEvent extends ProfileEvent {
   final String userId;
 

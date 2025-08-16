@@ -41,8 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     });
 
-    userId = FirebaseService.getUserId()!;
-    _bloc.add(GeUserEvent(userId: userId));
+    _bloc.add(GeUserIdEvent());
   }
 
   @override
@@ -54,6 +53,12 @@ class _ProfilePageState extends State<ProfilePage> {
           create: (_) => _bloc,
           child: BlocListener<ProfileBloc, ProfileState>(
             listener: (context, state) {
+              if (state is GetUserIdSuccessState) {
+                userId = state.userId;
+                _bloc.add(GeUserEvent(userId: userId));
+              } else if (state is GetUserIdFailedState) {
+                AppDialog.showErrorDialog(context: context, message: state.error);
+              }
               if (state is GetUserSuccessState) {
                 setState(() {
                   isLoading = false;

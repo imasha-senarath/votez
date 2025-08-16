@@ -8,6 +8,18 @@ abstract class ProfileState extends Equatable {
 
 class ProfileStateInitial extends ProfileState {}
 
+class GetUserIdSuccessState extends ProfileState {
+  final String userId;
+
+  GetUserIdSuccessState({required this.userId});
+}
+
+class GetUserIdFailedState extends ProfileState {
+  final String error;
+
+  GetUserIdFailedState({required this.error});
+}
+
 class GetUserSuccessState extends ProfileState {
   final Profile profile;
 

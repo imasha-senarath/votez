@@ -1,11 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:votez/domain/usecases/get_user_id_usecase.dart';
-import 'package:votez/domain/usecases/get_user_usecase.dart';
-import 'package:votez/presentation/blocs/profile/profile_event.dart';
-import 'package:votez/presentation/blocs/profile/profile_state.dart';
 import 'package:votez/presentation/blocs/splash/splash_event.dart';
 import 'package:votez/presentation/blocs/splash/splash_state.dart';
-import '../../../domain/usecases/sign_out_usecase.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   final GetUserIdUseCase getUserIdUseCase;

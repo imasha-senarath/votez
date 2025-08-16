@@ -69,6 +69,7 @@ Future<void> init() async {
 
   injection.registerFactory(
     () => ProfileBloc(
+      getUserIdUseCase: injection(),
       getUserUseCase: injection(),
       signOutUseCase: injection(),
     ),
