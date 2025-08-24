@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
+      //backgroundColor: AppColors.primaryBackground,
       body: SafeArea(
         child: BlocProvider(
           create: (_) => _bloc,
@@ -81,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Container(
                           decoration: const BoxDecoration(
-                            color: AppColors.white, // Background color
+                            //color: AppColors.white, // Background color
                             borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                           ),
                           child: Padding(
@@ -101,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     Text(
                                       _profile.name,
                                       style: const TextStyle(
-                                        color: AppColors.textPrimary,
+                                        //color: AppColors.textPrimary,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 22,
                                       ),
@@ -109,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     Text(
                                       _profile.email,
                                       style: const TextStyle(
-                                        color: AppColors.textPrimary,
+                                        //color: AppColors.textPrimary,
                                         fontSize: 16,
                                       ),
                                     )
@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 15),
                         Container(
                           decoration: const BoxDecoration(
-                            color: AppColors.white, // Background color
+                            //color: AppColors.white, // Background color
                             borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                           ),
                           child: Column(
@@ -148,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 10),
                         Container(
                           decoration: const BoxDecoration(
-                            color: AppColors.white, // Background color
+                            //color: AppColors.white, // Background color
                             borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                           ),
                           child: Column(

@@ -22,7 +22,7 @@ class PollCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.shadow,
         borderRadius: BorderRadius.circular(AppSizes.borderRadius),
       ),
       child: Padding(
@@ -52,7 +52,7 @@ class PollCard extends StatelessWidget {
                     Text(
                       "${poll.time} • ${poll.date}",
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.black54,
+                        //color: Colors.black54,
                       ),
                     )
                   ],

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:votez/core/constants/colors.dart';
+import 'package:votez/utils/theme/theme.dart';
 
 import '../core/di/dependency_injection.dart' as di;
 import 'core/navigation/app_router..dart';
@@ -35,9 +36,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppRouter.kSplashScreen,
       onGenerateRoute: AppRouter.generateRoute,
-      themeMode: ThemeMode.system,
-      theme: ThemeData(),
-      darkTheme: ThemeData(),
+      themeMode: ThemeMode.dark,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       //home: const SplashScreen(),
     );
   }

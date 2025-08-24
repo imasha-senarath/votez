@@ -42,7 +42,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
+      //backgroundColor: AppColors.primaryBackground,
       appBar: const CustomAppBar(
         title: 'Create Poll',
         enableBackButton: true,
