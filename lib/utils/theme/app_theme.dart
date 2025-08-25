@@ -1,13 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:votez/utils/theme/text_field_theme.dart';
-import 'package:votez/utils/theme/text_theme.dart';
-
-import 'appbar_theme.dart';
-import 'bottom_sheet_theme.dart';
-import 'checkbox_theme.dart';
-import 'chip_theme.dart';
-import 'elevated_button_theme.dart';
-import 'outlined_button_theme.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
@@ -45,7 +36,7 @@ class AppTheme {
   );
 
   static ColorScheme lightScheme() {
-    return ColorScheme(
+    return const ColorScheme(
       brightness: Brightness.light,
       primary: Color(0xff38608f),
       surfaceTint: Color(0xff38608f),
@@ -73,13 +64,13 @@ class AppTheme {
       scrim: Color(0xff000000),
       inverseSurface: Color(0xff2e3035),
       inversePrimary: Color(0xffa2c9fe),
-      background: Color(0xff535f70),
-      onBackground:  Color(0xffffffff),
+      background: Color(0xfff8f9ff),
+      onBackground: Color(0xff191c20),
     );
   }
 
   static ColorScheme darkScheme() {
-    return ColorScheme(
+    return const ColorScheme(
       brightness: Brightness.dark,
       primary: Color(0xffa2c9fe),
       surfaceTint: Color(0xffa2c9fe),
@@ -107,8 +98,8 @@ class AppTheme {
       scrim: Color(0xff000000),
       inverseSurface: Color(0xffe1e2e8),
       inversePrimary: Color(0xff38608f),
-      background: Color(0xffbbc7db),
-      onBackground: Color(0xff263141),
+      background: Color(0xff111418),
+      onBackground: Color(0xffe1e2e8),
     );
   }
 }

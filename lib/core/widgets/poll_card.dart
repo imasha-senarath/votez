@@ -22,7 +22,7 @@ class PollCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.shadow,
+        color: Theme.of(context).colorScheme.onSecondary,
         borderRadius: BorderRadius.circular(AppSizes.borderRadius),
       ),
       child: Padding(

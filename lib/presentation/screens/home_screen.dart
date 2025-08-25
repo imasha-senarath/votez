@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Container(
                                   decoration: const BoxDecoration(
-                                    color: AppColors.primary, // Background color
+                                    color: AppColors.primary,
                                     borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                                   ),
                                   child: Padding(

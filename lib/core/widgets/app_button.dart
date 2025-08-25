@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/colors.dart';
+
 class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
@@ -17,8 +19,8 @@ class AppButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          side: const BorderSide(color: Colors.black, width: 1),
-          backgroundColor: Colors.black,
+          side: const BorderSide(color: AppColors.primary, width: 1),
+          backgroundColor: AppColors.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

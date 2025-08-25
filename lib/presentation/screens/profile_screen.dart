@@ -80,9 +80,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       children: [
                         Container(
-                          decoration: const BoxDecoration(
-                            //color: AppColors.white, // Background color
-                            borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            borderRadius: const BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(18),
@@ -121,9 +121,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ), // Profile
                         const SizedBox(height: 15),
                         Container(
-                          decoration: const BoxDecoration(
-                            //color: AppColors.white, // Background color
-                            borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            borderRadius: const BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                           ),
                           child: Column(
                             children: [
@@ -147,9 +147,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const SizedBox(height: 10),
                         Container(
-                          decoration: const BoxDecoration(
-                            //color: AppColors.white, // Background color
-                            borderRadius: BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            borderRadius: const BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
                           ),
                           child: Column(
                             children: [
@@ -174,14 +174,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         const Spacer(),
                         Text(
                           "Version $appVersion",
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color: Colors.black38,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                //color: Colors.black38,
                               ),
                         ),
                         Text(
                           "from Imasha Senarath",
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color: Colors.black38,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                //color: Colors.black38,
                               ),
                         ),
                       ],

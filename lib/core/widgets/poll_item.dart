@@ -28,7 +28,7 @@ class PollItem extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isSelected ? Colors.black : AppColors.grey,
+        color: isSelected ? AppColors.primary : Theme.of(context).colorScheme.secondaryContainer,
         borderRadius: const BorderRadius.all(Radius.circular(AppSizes.borderRadius)),
       ),
       child: Padding(
