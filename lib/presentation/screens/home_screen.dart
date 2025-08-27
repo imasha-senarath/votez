@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late String userId;
 
-  final List<String> _categories = ["Food", "Technology", "Fashion", "Science", "Sports", "Life"];
+  final List<String> _categories = ["Food", "Technology", "Fashion", "Science", "Sports", "Life", "Other"];
 
   late Profile _profile;
   bool _isProfileLoading = true;

@@ -26,6 +26,9 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
 
   late String? userId;
 
+  final List<String> _categories = ["Food", "Technology", "Fashion", "Science", "Sports", "Life", "Other"];
+  int? _selectedCategoryIndex;
+
   final questionTextController = TextEditingController();
 
   final List<TextEditingController> _optionControllers = [];
@@ -87,6 +90,60 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
                   textEditingController: questionTextController,
                   labelText: "",
                   obscureText: false,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Select the category",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 38,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: _categories.length,
+                    itemBuilder: (context, index) {
+                      final isSelected = _selectedCategoryIndex == index;
+                      return Padding(
+                        padding: EdgeInsets.only(right: index == _categories.length - 1 ? 0 : 5.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedCategoryIndex = index;
+                              print("Selected: ${_categories[index]}");
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                              color: isSelected ? Colors.grey.withOpacity(0.3) : Colors.transparent,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                              child: Center(
+                                child: Text(
+                                  _categories[index],
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -173,6 +230,8 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
 
     if (question.isEmpty || options.any((option) => option.isEmpty)) {
       AppDialog.showToast(context: context, message: "Field's can't be empty.");
+    } else if (_selectedCategoryIndex == null) {
+      AppDialog.showToast(context: context, message: "Select the category.");
     } else {
       AppDialog.showLoading(context: context);
       _bloc.add(
