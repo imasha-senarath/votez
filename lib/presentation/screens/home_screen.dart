@@ -11,6 +11,7 @@ import '../../core/di/dependency_injection.dart';
 import '../../core/navigation/app_router..dart';
 import '../../core/widgets/app_dialog.dart';
 import '../../core/widgets/poll_card.dart';
+import '../../core/widgets/search_field.dart';
 import '../../models/poll.dart';
 import '../../models/profile.dart';
 import '../../utils/date_utils.dart';
@@ -143,6 +144,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 )
                               ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            AppSearchField(
+                              textEditingController: null,
+                              hintText: "Search polls...",
+                              onSubmitted: (value) {
+                                print("Final search: $value");
+                              },
                             ),
                             const SizedBox(
                               height: 20,
