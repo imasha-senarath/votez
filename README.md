@@ -17,6 +17,9 @@
   <li>Explore trending and categorized polls.</li>
   <li>Light and dark mode support.</li>
 </ul>
+
+<h2>🛢️ Set Up Database</h2>
+<p>This project uses Firebase, but the current Firebase account has been disabled due to spamming, so the app won’t work. To make it functional, create a new Firebase project, add the Android app, and generate the google-services.json file. Place it in the android/app/ directory. Then, enable Email Authentication and Firestore Database in your Firebase project.</p>
   
 <h2> 📸 Screenshots </h2>
 
@@ -30,6 +33,7 @@
 
 <img src="ss/13.jpg" width="400"/> <img src="ss/14.jpg" width="400"/>
 
+<p>To see all screenshots, check the "ss" folder.</p>
 
 <h2> 👽 Author </h2>
 <a href="https://www.imashasenarath.com/" target="_blank"><strong>Imasha Senarath</strong></a>
