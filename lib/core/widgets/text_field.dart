@@ -18,17 +18,20 @@ class AppTextField extends StatelessWidget {
             color: Colors.grey.shade300,
             width: 2.0
           ),
+          borderRadius: BorderRadius.circular(12),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
             color: Colors.grey,
           ),
+          borderRadius: BorderRadius.circular(12),
         ),
         labelText: labelText,
         hintStyle: const TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.normal,
         ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       ),
     );
   }
