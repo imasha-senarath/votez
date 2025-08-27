@@ -1,7 +1,5 @@
 <h1> Votez </h1>
 
-<h3 align="center">🚧 This project is currently under development. 🚧 </h3> <br>
-
 <p>A Flutter social media app for creating and participating in polls. Users can engage in discussions, vote on trending topics, and explore polls across various categories. Built with Clean Architecture, BLoC, and Firebase.</p>
 
 <h2> ⚙️ Technologies </h2>
@@ -21,6 +19,17 @@
 </ul>
   
 <h2> 📸 Screenshots </h2>
+
+<img src="ss/03.jpg" width="400"/> <img src="ss/04.jpg" width="400"/>
+
+<img src="ss/07.jpg" width="400"/> <img src="ss/08.jpg" width="400"/>
+
+<img src="ss/09.jpg" width="400"/> <img src="ss/10.jpg" width="400"/>
+
+<img src="ss/11.jpg" width="400"/> <img src="ss/12.jpg" width="400"/>
+
+<img src="ss/13.jpg" width="400"/> <img src="ss/14.jpg" width="400"/>
+
 
 <h2> 👽 Author </h2>
 <a href="https://www.imashasenarath.com/" target="_blank"><strong>Imasha Senarath</strong></a>
