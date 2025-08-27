@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late String userId;
 
   final List<String> _categories = ["Food", "Technology", "Fashion", "Science", "Sports", "Life", "Other"];
+  int? _selectedCategoryIndex;
 
   late Profile _profile;
   bool _isProfileLoading = true;
@@ -175,18 +176,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: _categories.length,
                                 itemBuilder: (context, index) {
+                                  final isSelected = _selectedCategoryIndex == index;
                                   return Padding(
                                     padding: EdgeInsets.only(right: index == _categories.length - 1 ? 0 : 5.0),
                                     child: GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        setState(() {
+                                          if(_selectedCategoryIndex == index) {
+                                            _selectedCategoryIndex = null;
+                                          } else {
+                                            _selectedCategoryIndex = index;
+                                            print("Selected: ${_categories[index]}");
+                                          }
+                                        });
+                                      },
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(15),
                                           border: Border.all(
-                                            // Border settings
-                                            color: Colors.grey, // Border color
-                                            width: 1.0, // Border width
+                                            color: Colors.grey,
+                                            width: 1.0,
                                           ),
+                                          color: isSelected ? Colors.grey.withOpacity(0.3) : Colors.transparent,
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
