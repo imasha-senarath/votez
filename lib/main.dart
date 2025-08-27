@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppRouter.kSplashScreen,
       onGenerateRoute: AppRouter.generateRoute,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //home: const SplashScreen(),

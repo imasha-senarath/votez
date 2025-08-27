@@ -131,12 +131,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                               child: Center(
-                                child: Text(
-                                  _categories[index],
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                child: Text(_categories[index]),
                               ),
                             ),
                           ),

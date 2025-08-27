@@ -155,8 +155,7 @@ class _VotePageState extends State<VotePage> {
                           ),
                           const Icon(
                             Icons.thumb_up_alt_outlined,
-                            size: 20,
-                            color: AppColors.textPrimary,
+                            size: 20
                           ),
                           const SizedBox(width: 5),
                           Text(
@@ -166,7 +165,7 @@ class _VotePageState extends State<VotePage> {
                           const Spacer(),
                           Text(
                             "${widget.poll.time} • ${widget.poll.date}",
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const SizedBox(
                             width: 10,

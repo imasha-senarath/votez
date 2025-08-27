@@ -41,9 +41,7 @@ class PollCard extends StatelessWidget {
                 ),
                 Text(
                   profile.name,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w600
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
                 Row(
@@ -52,8 +50,8 @@ class PollCard extends StatelessWidget {
                     Text(
                       "${poll.time} • ${poll.date}",
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        //color: Colors.black54,
-                      ),
+                          //color: Colors.black54,
+                          ),
                     )
                   ],
                 )
@@ -74,7 +72,6 @@ class PollCard extends StatelessWidget {
                 const Icon(
                   Icons.thumb_up_alt_outlined,
                   size: 20,
-                  color: AppColors.textPrimary,
                 ),
                 const SizedBox(width: 5),
                 Text(
@@ -85,7 +82,6 @@ class PollCard extends StatelessWidget {
                 const Icon(
                   Icons.check_circle_outline,
                   size: 20,
-                  color: AppColors.textPrimary,
                 ),
                 const SizedBox(width: 5),
                 Text(

@@ -24,7 +24,7 @@ class SettingCard extends StatelessWidget {
             Icon(
               icon,
               size: 26,
-              color: Colors.grey.shade400,
+              //color: Colors.grey.shade400,
             ),
             const SizedBox(width: 10),
             Text(
